@@ -18,19 +18,36 @@ std::string Montador::get_programName()
 
 void Montador::read_file(bool showLines)
 {
+    std::string correctedLine;
+
     inputFile.open(programName);
     if (inputFile.is_open())
     {
         while (getline(inputFile, currLine))
         {
+            correctedLine = remove_mult_spaces(currLine);
+            orgLines.push_back(correctedLine);
             if (showLines)
             {
-                std::cout << currLine << std::endl;
+                std::cout << "original line: " << currLine << std::endl;
+                std::cout << "corrected line: " << correctedLine << std::endl;
             }
-            linesRead.push_back(currLine);
         }
         inputFile.close();
     }
+}
+
+std::string Montador::remove_mult_spaces(std::string line)
+{
+    for (uint i = 0; i < line.length() - 1; i++)
+    {
+        if (line[i] == line[i + 1]) 
+        {
+            line.erase(i, 1);
+            i = 0;
+        }
+    }
+    return line;
 }
 
 void Montador::read_file(std::string fileName, bool showLines)
@@ -42,5 +59,23 @@ void Montador::read_file(std::string fileName, bool showLines)
 
 int Montador::get_n_linesRead()
 {
-    return linesRead.size();
+    return orgLines.size();
+}
+
+void Montador::first_pass() 
+{
+    for (uint i = 0; i < orgLines.size(); i++)
+    {
+        std::string line = orgLines[i];
+        std::cout << "line: " << line << std::endl;
+        parser.split_elements(line);
+    }       
+}
+void Montador::second_pass() 
+{
+    // TODO: Implementar segunda passada
+}
+void Montador::write_output(std::string outputFile) 
+{
+    // TODO: Implementar escrita no arquivo final
 }

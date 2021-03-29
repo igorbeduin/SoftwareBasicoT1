@@ -1,0 +1,6 @@
+class DirectTable 
+{
+    private:
+
+    public:
+};
