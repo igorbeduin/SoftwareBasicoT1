@@ -14,9 +14,9 @@ int main(int argc, char **argv)
     Compiler montador(programName);
 
     montador.read_file(false);
-    montador.first_pass();
-    montador.second_pass();
-    montador.write_output(outputFile);
+    // montador.first_pass();
+    // montador.second_pass();
+    // montador.write_output(outputFile);
 
     return 0;
 }

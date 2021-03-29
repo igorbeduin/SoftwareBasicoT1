@@ -27,6 +27,7 @@ void Compiler::read_file(bool showLines)
         while (getline(inputFile, currLine))
         {
             correctedLine = remove_comments(currLine);
+            correctedLine = convert_to_uppercase(correctedLine);
             correctedLine = remove_mult_spaces(correctedLine);
             orgLines.push_back(correctedLine);
             if (showLines)
@@ -57,6 +58,17 @@ std::string Compiler::remove_comments(std::string line)
     std::size_t found = line.find(commentMark);
     if (found != std::string::npos)
         line.erase(found);
+    return line;
+}
+
+std::string Compiler::convert_to_uppercase(std::string line)
+{
+    std::locale loc;
+
+    for (uint i = 0; i < line.length(); i++)
+    {
+        line[i] = std::toupper(line[i], loc);
+    }
     return line;
 }
 

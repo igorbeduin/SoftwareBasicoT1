@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <locale>
 
 #include "SymbTable.h"
 #include "DirectTable.h"
@@ -36,4 +37,5 @@ class Compiler
         int get_n_linesRead();
         std::string remove_mult_spaces(std::string line);
         std::string remove_comments(std::string line);
+        std::string convert_to_uppercase(std::string line);
 };
