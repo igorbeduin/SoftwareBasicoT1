@@ -4,6 +4,9 @@
 #include <map>
 #include <algorithm>
 
+#include "DirectTable.h"
+
+
 class TokensTable
 {
     private:

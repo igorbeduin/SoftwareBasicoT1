@@ -5,7 +5,6 @@
 #include <locale>
 
 #include "SymbTable.h"
-#include "DirectTable.h"
 #include "Scanner.h"
 
 
@@ -20,7 +19,6 @@ class Translator
         int lineCounter = 0;
         int posCounter = 1;
         SymbTable symbTable;
-        DirectTable directTable;
         Scanner scanner;
         std::string commentMark = ";";
 

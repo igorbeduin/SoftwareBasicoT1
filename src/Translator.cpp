@@ -2,6 +2,7 @@
 
 Translator::Translator(std::string programName) : programName(programName)
 {}
+
 Translator::~Translator()
 {}
 
@@ -92,7 +93,7 @@ void Translator::first_pass()
         std::string line = orgLines[lineCounter];
         scanner.split_elements(line, lineCounter);
     }       
-    scanner.print_elements();
+    // scanner.print_elements();
     scanner.classify_elements();
 }
 void Translator::second_pass() 

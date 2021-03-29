@@ -19,8 +19,11 @@ void TokensTable::print_elements()
 void TokensTable::classify_tokens()
 {
     for (uint i = 0; i < elements.size(); i++)
-    {
-        if (is_label_sep(elements[i]))
+    {   
+        if (is_operation(elements[i]))
+        {
+            elementsClass[i] = StaticSymbols::operationClass;
+        } else if (is_label_sep(elements[i]))
         {
             elementsClass[i-1] = StaticSymbols::labelClass;
             elementsClass[i] = StaticSymbols::labelSeparatorClass;
@@ -43,6 +46,11 @@ bool TokensTable::is_argument_sep(std::string element)
 
 bool TokensTable::is_operation(std::string element)
 {
+    std::map<std::string, std::map<std::string, int>>::iterator found = DirectTable::directTable.find(element);
+    if (found != DirectTable::directTable.end())
+    {
+        return true;
+    }
     return false;
 }
 

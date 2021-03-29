@@ -11,12 +11,12 @@ int main(int argc, char **argv)
     std::string line;
     std::string outputFile;
 
-    Translator montador(programName);
+    Translator translator(programName);
 
-    montador.read_file(false);
-    montador.first_pass();
-    montador.second_pass();
-    montador.write_output(outputFile);
+    translator.read_file(false);
+    translator.first_pass();
+    translator.second_pass();
+    translator.write_output(outputFile);
 
     return 0;
 }

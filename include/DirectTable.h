@@ -1,6 +1,9 @@
+#include <map>
+#include <string>
+
 class DirectTable 
 {
-    private:
-
     public:
+        static std::map<std::string, std::map<std::string, int>> directTable;
+        DirectTable();
 };
