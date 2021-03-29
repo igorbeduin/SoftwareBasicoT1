@@ -1,4 +1,5 @@
 #include "../include/Scanner.h"
+#include "../include/StaticSymbols.h"
 
 void Scanner::split_elements(std::string line, int nLine)
 {   
@@ -14,34 +15,16 @@ void Scanner::split_elements(std::string line, int nLine)
         {
             element = line.substr(indexes[i]);
         }
-        if (element[0] == separators[1])
+        if (element[0] == (StaticSymbols::spaceSeparator)[0])
         {
             element.erase(0, 1);
         }
-        if (element[0] == separators[0])
-        {  
-
-            elements.push_back(",");
-            elementsLine.push_back(nLine);
-            elementsClass.push_back("arg_sep");
+        if (element[0] == (StaticSymbols::argumentSeparator)[0])
+        {
+            tokensTable.insert_token(StaticSymbols::argumentSeparator, nLine, StaticSymbols::dummyClass);
             element.erase(0, 1);
         }
-        elements.push_back(element);
-        elementsLine.push_back(nLine);
-        if (is_label_sep(element))
-        {
-            elementsClass.back() = "label";
-            elementsClass.push_back("label_sep");
-        } else if (is_operation(element))
-        {
-            elementsClass.push_back("op");
-        } else if (is_argument(element))
-        {
-            elementsClass.push_back("arg");
-        } else 
-        {
-            elementsClass.push_back("");
-        }
+        tokensTable.insert_token(element, nLine, StaticSymbols::dummyClass);
         
     }
     reset_indexes();
@@ -52,7 +35,7 @@ void Scanner::obtain_separators(std::string line)
     for (uint i = 0; i < line.length(); i++)
     {
         bool sepFound;
-        sepFound = std::find(separators.begin(), separators.end(), line[i]) != separators.end();
+        sepFound = std::find(StaticSymbols::separators.begin(), StaticSymbols::separators.end(), line[i]) != StaticSymbols::separators.end();
 
         if (sepFound)
         {
@@ -68,29 +51,12 @@ void Scanner::reset_indexes()
     indexes.push_back(0);
 }
 
-std::string Scanner::classify_element(std::string element)
+void Scanner::classify_elements()
 {
-    // TODO: classifica o elemento e retorna qual o tipo: label, operation, argument, comment
-    return "foo";
-}
-
-bool Scanner::is_label_sep(std::string element)
-{ // TODO: 
-    return false;
-}
-bool Scanner::is_operation(std::string element)
-{ // TODO:
-    return false;
-}
-bool Scanner::is_argument(std::string element)
-{ // TODO:
-    return false;
+    tokensTable.classify_tokens();
 }
 
 void Scanner::print_elements()
 {
-    for (uint i = 0; i < elements.size(); i++)
-    {
-        std::cout << elements[i] << std::endl;
-    }
+    tokensTable.print_elements();
 }

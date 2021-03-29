@@ -93,6 +93,7 @@ void Translator::first_pass()
         scanner.split_elements(line, lineCounter);
     }       
     scanner.print_elements();
+    scanner.classify_elements();
 }
 void Translator::second_pass() 
 {
