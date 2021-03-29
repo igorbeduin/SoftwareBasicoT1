@@ -9,22 +9,24 @@ void Parser::split_elements(std::string line)
         if (indexes[i] != indexes[indexes.size() - 1])
         {   
             int elementLength = indexes[i + 1] - indexes[i];
-            int correctFactor = (indexes[i] != 0? 1:0);
-            element = line.substr(indexes[i] + correctFactor, elementLength);
+            element = line.substr(indexes[i], elementLength);
         } else 
         {
             element = line.substr(indexes[i]);
         }
+        if (element[0] == separators[1])
+        {
+            element.erase(0, 1);
+        }
         elements.push_back(element);
     }
-
+    reset_indexes();
 }
 
 void Parser::obtain_separators(std::string line)
 {
     for (uint i = 0; i < line.length(); i++)
     {
-        std::cout << i << std::endl;
         bool sepFound;
         sepFound = std::find(separators.begin(), separators.end(), line[i]) != separators.end();
 
@@ -33,7 +35,11 @@ void Parser::obtain_separators(std::string line)
             indexes.push_back(i);
         }
     }
+    std::sort(indexes.begin(), indexes.end());
 }
 
-void Parser::reset_elements()
-{}
+void Parser::reset_indexes()
+{
+    indexes.clear();
+    indexes.push_back(0);
+}

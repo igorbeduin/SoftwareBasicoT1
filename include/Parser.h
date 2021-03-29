@@ -12,5 +12,5 @@ class Parser
         void obtain_separators(std::string line);
     public:
         void split_elements(std::string line);
-        void reset_elements();
+        void reset_indexes();
 };
