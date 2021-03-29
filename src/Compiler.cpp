@@ -1,22 +1,22 @@
-#include "../include/montador.h"
+#include "../include/Compiler.h"
 
-Montador::Montador(std::string programName) : programName(programName)
+Compiler::Compiler(std::string programName) : programName(programName)
 {}
-Montador::~Montador()
+Compiler::~Compiler()
 {}
 
-void Montador::set_programName(std::string fileName)
+void Compiler::set_programName(std::string fileName)
 {
     programName = fileName;
 }
 
-std::string Montador::get_programName()
+std::string Compiler::get_programName()
 {
     std::cout << programName << std::endl;
     return programName;
 }
 
-void Montador::read_file(bool showLines)
+void Compiler::read_file(bool showLines)
 {
     std::string currLine;
     std::string correctedLine;
@@ -39,7 +39,7 @@ void Montador::read_file(bool showLines)
     }
 }
 
-std::string Montador::remove_mult_spaces(std::string line)
+std::string Compiler::remove_mult_spaces(std::string line)
 {
     for (uint i = 0; i < line.length() - 1; i++)
     {
@@ -52,7 +52,7 @@ std::string Montador::remove_mult_spaces(std::string line)
     return line;
 }
 
-std::string Montador::remove_comments(std::string line)
+std::string Compiler::remove_comments(std::string line)
 {
     std::size_t found = line.find(commentMark);
     if (found != std::string::npos)
@@ -60,19 +60,19 @@ std::string Montador::remove_comments(std::string line)
     return line;
 }
 
-void Montador::read_file(std::string fileName, bool showLines)
+void Compiler::read_file(std::string fileName, bool showLines)
 {
     set_programName(fileName);
     read_file(showLines=showLines);
 }
 
 
-int Montador::get_n_linesRead()
+int Compiler::get_n_linesRead()
 {
     return orgLines.size();
 }
 
-void Montador::first_pass() 
+void Compiler::first_pass() 
 {
     for (uint i = 0; i < orgLines.size(); i++)
     {   
@@ -82,11 +82,11 @@ void Montador::first_pass()
         parser.split_elements(line, lineCounter);
     }       
 }
-void Montador::second_pass() 
+void Compiler::second_pass() 
 {
     // TODO: Implementar segunda passada
 }
-void Montador::write_output(std::string outputFile) 
+void Compiler::write_output(std::string outputFile) 
 {
     // TODO: Implementar escrita no arquivo final
 }

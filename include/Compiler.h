@@ -8,7 +8,7 @@
 #include "Parser.h"
 
 
-class Montador 
+class Compiler 
 {
     private:
         std::string programName;
@@ -24,8 +24,8 @@ class Montador
         std::string commentMark = ";";
 
     public:
-        Montador(std::string programName);
-        ~Montador();
+        Compiler(std::string programName);
+        ~Compiler();
         void first_pass();
         void second_pass();
         void write_output(std::string outputFile);

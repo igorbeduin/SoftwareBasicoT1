@@ -2,7 +2,7 @@
 #include <fstream>
 #include <string>
 
-#include "../include/montador.h"
+#include "../include/Compiler.h"
 
 int main(int argc, char **argv)
 {
@@ -11,12 +11,12 @@ int main(int argc, char **argv)
     std::string line;
     std::string outputFile;
 
-    Montador montador(programName);
+    Compiler montador(programName);
 
-    montador.read_file(true);
-    //montador.first_pass();
-    //montador.second_pass();
-    //montador.write_output(outputFile);
+    montador.read_file(false);
+    montador.first_pass();
+    montador.second_pass();
+    montador.write_output(outputFile);
 
     return 0;
 }
