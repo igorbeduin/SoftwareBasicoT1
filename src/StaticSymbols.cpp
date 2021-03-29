@@ -8,3 +8,4 @@ std::vector<char> StaticSymbols::separators = {',', ' ', ':'};
 std::string StaticSymbols::dummyClass = "";
 std::string StaticSymbols::labelSeparatorClass = "label_sep";
 std::string StaticSymbols::argumentSeparatorClass = "arg_sep";
+std::string StaticSymbols::labelClass = "label";

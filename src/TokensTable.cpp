@@ -22,6 +22,7 @@ void TokensTable::classify_tokens()
     {
         if (is_label_sep(elements[i]))
         {
+            elementsClass[i-1] = StaticSymbols::labelClass;
             elementsClass[i] = StaticSymbols::labelSeparatorClass;
         } else if (is_argument_sep(elements[i]))
         {

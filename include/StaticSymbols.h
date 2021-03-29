@@ -9,6 +9,7 @@ class StaticSymbols
         static std::string argumentSeparator;
         static std::vector<char> separators;
 
+        static std::string labelClass;
         static std::string dummyClass;
         static std::string labelSeparatorClass;
         static std::string argumentSeparatorClass;
