@@ -14,4 +14,8 @@ class StaticSymbols
         static std::string labelSeparatorClass;
         static std::string argumentSeparatorClass;
 
+        static std::string sectionMark;
+        static std::string dataSectionMark;
+        static std::string textSectionMark;
+        static std::string stopSectionMark;
 };

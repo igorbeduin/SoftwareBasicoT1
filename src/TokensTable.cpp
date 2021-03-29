@@ -50,3 +50,30 @@ bool TokensTable::is_argument(std::string element)
 { // TODO:
     return false;
 }
+
+void TokensTable::search_for_sections()
+{
+    std::vector<std::string>::iterator dataFound = std::find(elements.begin(), elements.end(), StaticSymbols::dataSectionMark);
+    if (dataFound != elements.end() && *(dataFound-1) == StaticSymbols::sectionMark)
+    {
+        dataSection["begin"] = dataFound - elements.begin();
+    }
+    std::vector<std::string>::iterator textFound = std::find(elements.begin(), elements.end(), StaticSymbols::textSectionMark);
+    std::vector<std::string>::iterator stopFound = std::find(elements.begin(), elements.end(), StaticSymbols::stopSectionMark);
+    if (textFound != elements.end() && *(dataFound - 1) == StaticSymbols::sectionMark)
+    {
+        textSection["begin"] = (textFound - elements.begin()) + 1;
+    }
+    if (stopFound != elements.end())
+    {
+        textSection["end"] = (stopFound - elements.begin()) + 1;
+    }
+
+    if (textSection["begin"] > dataSection["begin"])
+    {
+        dataSection["end"] = textSection["begin"] - 1;
+    } else
+    {
+        dataSection["end"] = elements.size() - 1;
+    }
+}
