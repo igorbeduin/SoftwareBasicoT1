@@ -18,6 +18,7 @@ std::string Montador::get_programName()
 
 void Montador::read_file(bool showLines)
 {
+    std::string currLine;
     std::string correctedLine;
 
     inputFile.open(programName);
@@ -25,7 +26,8 @@ void Montador::read_file(bool showLines)
     {
         while (getline(inputFile, currLine))
         {
-            correctedLine = remove_mult_spaces(currLine);
+            correctedLine = remove_comments(currLine);
+            correctedLine = remove_mult_spaces(correctedLine);
             orgLines.push_back(correctedLine);
             if (showLines)
             {
@@ -50,6 +52,14 @@ std::string Montador::remove_mult_spaces(std::string line)
     return line;
 }
 
+std::string Montador::remove_comments(std::string line)
+{
+    std::size_t found = line.find(commentMark);
+    if (found != std::string::npos)
+        line.erase(found);
+    return line;
+}
+
 void Montador::read_file(std::string fileName, bool showLines)
 {
     set_programName(fileName);
@@ -65,10 +75,11 @@ int Montador::get_n_linesRead()
 void Montador::first_pass() 
 {
     for (uint i = 0; i < orgLines.size(); i++)
-    {
-        std::string line = orgLines[i];
+    {   
+        lineCounter = i;
+        std::string line = orgLines[lineCounter];
         std::cout << "line: " << line << std::endl;
-        parser.split_elements(line);
+        parser.split_elements(line, lineCounter);
     }       
 }
 void Montador::second_pass() 

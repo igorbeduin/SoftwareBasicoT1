@@ -13,10 +13,10 @@ int main(int argc, char **argv)
 
     Montador montador(programName);
 
-    montador.read_file(false);
-    montador.first_pass();
-    montador.second_pass();
-    montador.write_output(outputFile);
+    montador.read_file(true);
+    //montador.first_pass();
+    //montador.second_pass();
+    //montador.write_output(outputFile);
 
     return 0;
 }

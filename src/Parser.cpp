@@ -1,6 +1,6 @@
 #include "../include/Parser.h"
 
-void Parser::split_elements(std::string line)
+void Parser::split_elements(std::string line, int nLine)
 {   
     obtain_separators(line);
     for (uint i = 0; i < indexes.size(); i++)
@@ -19,6 +19,9 @@ void Parser::split_elements(std::string line)
             element.erase(0, 1);
         }
         elements.push_back(element);
+        std::map<int, std::string> elementInfo;
+        elementInfo[nLine]=classify_element(element);
+        elementInfoTable.push_back(elementInfo);
     }
     reset_indexes();
 }
@@ -42,4 +45,10 @@ void Parser::reset_indexes()
 {
     indexes.clear();
     indexes.push_back(0);
+}
+
+std::string Parser::classify_element(std::string element)
+{
+    // TODO: classifica o elemento e retorna qual o tipo: label, operation, argument, comment
+    return "foo";
 }

@@ -12,7 +12,6 @@ class Montador
 {
     private:
         std::string programName;
-        std::string currLine;
         std::ifstream inputFile;
         std::vector<std::string> orgLines;
         static int acc;
@@ -22,6 +21,7 @@ class Montador
         SymbTable symbTable;
         DirectTable directTable;
         Parser parser;
+        std::string commentMark = ";";
 
     public:
         Montador(std::string programName);
@@ -35,4 +35,5 @@ class Montador
         void read_file(std::string fileName, bool showLines=false);
         int get_n_linesRead();
         std::string remove_mult_spaces(std::string line);
+        std::string remove_comments(std::string line);
 };
