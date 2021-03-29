@@ -2,7 +2,7 @@
 #include <fstream>
 #include <string>
 
-#include "../include/Compiler.h"
+#include "../include/Translator.h"
 
 int main(int argc, char **argv)
 {
@@ -11,12 +11,12 @@ int main(int argc, char **argv)
     std::string line;
     std::string outputFile;
 
-    Compiler montador(programName);
+    Translator montador(programName);
 
     montador.read_file(false);
-    // montador.first_pass();
-    // montador.second_pass();
-    // montador.write_output(outputFile);
+    montador.first_pass();
+    montador.second_pass();
+    montador.write_output(outputFile);
 
     return 0;
 }

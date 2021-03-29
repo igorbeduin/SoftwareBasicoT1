@@ -1,22 +1,22 @@
-#include "../include/Compiler.h"
+#include "../include/Translator.h"
 
-Compiler::Compiler(std::string programName) : programName(programName)
+Translator::Translator(std::string programName) : programName(programName)
 {}
-Compiler::~Compiler()
+Translator::~Translator()
 {}
 
-void Compiler::set_programName(std::string fileName)
+void Translator::set_programName(std::string fileName)
 {
     programName = fileName;
 }
 
-std::string Compiler::get_programName()
+std::string Translator::get_programName()
 {
     std::cout << programName << std::endl;
     return programName;
 }
 
-void Compiler::read_file(bool showLines)
+void Translator::read_file(bool showLines)
 {
     std::string currLine;
     std::string correctedLine;
@@ -40,7 +40,7 @@ void Compiler::read_file(bool showLines)
     }
 }
 
-std::string Compiler::remove_mult_spaces(std::string line)
+std::string Translator::remove_mult_spaces(std::string line)
 {
     for (uint i = 0; i < line.length() - 1; i++)
     {
@@ -53,7 +53,7 @@ std::string Compiler::remove_mult_spaces(std::string line)
     return line;
 }
 
-std::string Compiler::remove_comments(std::string line)
+std::string Translator::remove_comments(std::string line)
 {
     std::size_t found = line.find(commentMark);
     if (found != std::string::npos)
@@ -61,7 +61,7 @@ std::string Compiler::remove_comments(std::string line)
     return line;
 }
 
-std::string Compiler::convert_to_uppercase(std::string line)
+std::string Translator::convert_to_uppercase(std::string line)
 {
     std::locale loc;
 
@@ -72,33 +72,33 @@ std::string Compiler::convert_to_uppercase(std::string line)
     return line;
 }
 
-void Compiler::read_file(std::string fileName, bool showLines)
+void Translator::read_file(std::string fileName, bool showLines)
 {
     set_programName(fileName);
     read_file(showLines=showLines);
 }
 
 
-int Compiler::get_n_linesRead()
+int Translator::get_n_linesRead()
 {
     return orgLines.size();
 }
 
-void Compiler::first_pass() 
+void Translator::first_pass() 
 {
     for (uint i = 0; i < orgLines.size(); i++)
     {   
         lineCounter = i;
         std::string line = orgLines[lineCounter];
-        std::cout << "line: " << line << std::endl;
-        parser.split_elements(line, lineCounter);
+        scanner.split_elements(line, lineCounter);
     }       
+    scanner.print_elements();
 }
-void Compiler::second_pass() 
+void Translator::second_pass() 
 {
     // TODO: Implementar segunda passada
 }
-void Compiler::write_output(std::string outputFile) 
+void Translator::write_output(std::string outputFile) 
 {
     // TODO: Implementar escrita no arquivo final
 }

@@ -6,10 +6,10 @@
 
 #include "SymbTable.h"
 #include "DirectTable.h"
-#include "Parser.h"
+#include "Scanner.h"
 
 
-class Compiler 
+class Translator 
 {
     private:
         std::string programName;
@@ -21,12 +21,12 @@ class Compiler
         int posCounter = 1;
         SymbTable symbTable;
         DirectTable directTable;
-        Parser parser;
+        Scanner scanner;
         std::string commentMark = ";";
 
     public:
-        Compiler(std::string programName);
-        ~Compiler();
+        Translator(std::string programName);
+        ~Translator();
         void first_pass();
         void second_pass();
         void write_output(std::string outputFile);
