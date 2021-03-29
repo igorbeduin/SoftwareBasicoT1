@@ -3,9 +3,19 @@
 void Parser::split_elements(std::string line)
 {   
     obtain_separators(line);
-    for (int i = 0; i < indexes.size() - 1; i++)
-    {
-
+    for (uint i = 0; i < indexes.size(); i++)
+    {   
+        std::string element;
+        if (indexes[i] != indexes[indexes.size() - 1])
+        {   
+            int elementLength = indexes[i + 1] - indexes[i];
+            int correctFactor = (indexes[i] != 0? 1:0);
+            element = line.substr(indexes[i] + correctFactor, elementLength);
+        } else 
+        {
+            element = line.substr(indexes[i]);
+        }
+        elements.push_back(element);
     }
 
 }
