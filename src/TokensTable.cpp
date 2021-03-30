@@ -43,6 +43,10 @@ void TokensTable::classify_tokens()
         } else if (is_symbol(elements[i]))
         {
             elementsClass[i] = StaticSymbols::symbolClass;
+        } else if (is_section_mark(elements[i]) && is_section_mark(elements[i+1]))
+        {
+            elementsClass[i] = StaticSymbols::ignoreClass;
+            elementsClass[i + 1] = StaticSymbols::ignoreClass;
         }
     }
 }
@@ -110,4 +114,13 @@ void TokensTable::search_for_sections()
 bool TokensTable::is_symbol(std::string element)
 {
     return symbTable.exist(element);
+}
+
+bool TokensTable::is_section_mark(std::string element)
+{
+    return (element == StaticSymbols::sectionMark ||
+            element == StaticSymbols::dataSectionMark ||
+            element == StaticSymbols::textSectionMark ||
+            element == StaticSymbols::stopSectionMark);
+        
 }
