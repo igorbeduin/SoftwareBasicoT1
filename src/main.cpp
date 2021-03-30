@@ -16,7 +16,7 @@ int main(int argc, char **argv)
     translator.read_file(false);
     translator.first_pass();
     translator.second_pass();
-    translator.write_output(outputFile);
+    translator.write_output(programName);
 
     return 0;
 }

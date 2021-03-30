@@ -2,7 +2,7 @@
 #include "../include/TokensTable.h"
 #include "../include/StaticSymbols.h"
 
-std::vector<std::string> Parser::outputString;
+std::vector<std::string> Parser::outputStringVector;
 
 void Parser::set_elements()
 {}
@@ -31,7 +31,7 @@ void Parser::mount_output()
         if (memNumber != -1)
         {
             std::string out = std::to_string(memNumber);
-            outputString.push_back(out);
+            outputStringVector.push_back(out);
         }
     }
 }

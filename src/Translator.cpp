@@ -98,9 +98,23 @@ void Translator::second_pass()
     parser.mount_output();
 }
 
-void Translator::write_output(std::string outputFile) 
+void Translator::write_output(std::string programName) 
 {
-    // TODO: Implementar escrita no arquivo final
+    std::string outputProgramName = programName.substr(0, programName.find(extensionMark));
+    outputProgramName = outputProgramName + outputExt;
+    outputFile.open(outputProgramName);
+    if (outputFile.is_open())
+    {
+        for (uint i = 0; i < parser.outputStringVector.size(); i++)
+        {
+            outputFile << parser.outputStringVector[i];
+            if (i != parser.outputStringVector.size() - 1)
+            {
+                outputFile << " ";
+            }
+        }
+        outputFile.close();
+    }
 }
 
 void Translator::mount_elements_array()

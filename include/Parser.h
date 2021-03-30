@@ -4,8 +4,8 @@
 class Parser
 {
     private:
-        static std::vector<std::string> outputString;
     public:
+        static std::vector<std::string> outputStringVector;
         void set_elements();
         void set_elements_lines();
         void set_elements_classes();

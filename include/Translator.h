@@ -12,10 +12,13 @@ class Translator
     private:
         std::string programName;
         std::ifstream inputFile;
+        std::ofstream outputFile;
         std::vector<std::string> orgLines;
         Scanner scanner;
         Parser parser;
         std::string commentMark = ";";
+        std::string extensionMark = ".";
+        std::string outputExt = ".OBJ";
 
     public:
         Translator(std::string programName);
