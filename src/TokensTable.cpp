@@ -1,6 +1,13 @@
 #include "../include/TokensTable.h"
 #include "../include/StaticSymbols.h"
 
+std::vector<std::string> TokensTable::elements;
+std::vector<int> TokensTable::elementsLine;
+std::vector<std::string> TokensTable::elementsClass;
+std::map<std::string, int> TokensTable::dataSection;
+std::map<std::string, int> TokensTable::textSection;
+SymbTable TokensTable::symbTable;
+
 void TokensTable::insert_token(std::string element, int elementLine, std::string elementClass)
 {
     elements.push_back(element);

@@ -9,7 +9,6 @@
 class Scanner
 {
     private:
-        TokensTable tokensTable;
         std::vector<int> indexes{0};
         void obtain_separators(std::string line);
     public:
@@ -17,5 +16,4 @@ class Scanner
         void reset_indexes();
         void classify_elements();
         void print_elements();
-        TokensTable get_tokens_table();
 };

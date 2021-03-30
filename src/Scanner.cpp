@@ -21,10 +21,10 @@ void Scanner::split_elements(std::string line, int nLine)
         }
         if (element[0] == (StaticSymbols::argumentSeparator)[0])
         {
-            tokensTable.insert_token(StaticSymbols::argumentSeparator, nLine, StaticSymbols::dummyClass);
+            TokensTable::insert_token(StaticSymbols::argumentSeparator, nLine, StaticSymbols::dummyClass);
             element.erase(0, 1);
         }
-        tokensTable.insert_token(element, nLine, StaticSymbols::dummyClass);
+        TokensTable::insert_token(element, nLine, StaticSymbols::dummyClass);
         
     }
     reset_indexes();
@@ -53,17 +53,12 @@ void Scanner::reset_indexes()
 
 void Scanner::classify_elements()
 {
-    tokensTable.search_for_sections();
-    tokensTable.classify_tokens();
-    tokensTable.fill_symb_table();
+    TokensTable::search_for_sections();
+    TokensTable::classify_tokens();
+    TokensTable::fill_symb_table();
 }
 
 void Scanner::print_elements()
 {
-    tokensTable.print_elements();
-}
-
-TokensTable Scanner::get_tokens_table()
-{
-    return tokensTable;
+    TokensTable::print_elements();
 }
