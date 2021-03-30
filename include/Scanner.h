@@ -17,4 +17,5 @@ class Scanner
         void reset_indexes();
         void classify_elements();
         void print_elements();
+        TokensTable get_tokens_table();
 };

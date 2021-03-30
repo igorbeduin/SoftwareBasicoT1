@@ -89,12 +89,13 @@ void Translator::first_pass()
 {
     for (uint i = 0; i < orgLines.size(); i++)
     {   
-        lineCounter = i;
-        std::string line = orgLines[lineCounter];
+        lineCounter = i + 1;
+        std::string line = orgLines[i];
         scanner.split_elements(line, lineCounter);
     }       
     // scanner.print_elements();
     scanner.classify_elements();
+    parser.configure(scanner.get_tokens_table());
 }
 void Translator::second_pass() 
 {

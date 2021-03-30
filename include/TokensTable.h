@@ -10,14 +10,13 @@
 
 class TokensTable
 {
-    private:
+    public:
         std::vector<std::string> elements;
         std::vector<int> elementsLine;
         std::vector<std::string> elementsClass;
         std::map<std::string, int> dataSection;
         std::map<std::string, int> textSection;
         SymbTable symbTable;
-    public:
         void insert_token(std::string element, int elementLine, std::string elementClass);
         void print_elements();
         void classify_tokens();

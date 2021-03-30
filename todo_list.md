@@ -1,12 +1,14 @@
 # TODO LIST
 
-[] Verificar cada elemento
+[x] Verificar cada elemento
     [x] Verificar se é algum dos separadores reservados
-    [x] Classificar Labels
-    [] Verificar algum erro lexico
+    [x] Classificar Label
+    [] Corrigir Classificacao de symbols (section data ou section text)
+    [] Classe que vai guardar os erros
+    [] Verificar algum erro lexico e jgoar na classe
         [] < 50 caracteres
         [] compostos por letras, números ou underscore
         [] primeiro caracter nao pode ser numero
-[] Classificar cada elemento
-[] Rotina de verificaçao de regra para cada classe
-[] Montar tabela de simbolos percorrendo os elementos
+    [] Verificar erros sintaticos
+        [] Rotina de verificaçao de regra para cada classe
+    [] Montar tabela de simbolos percorrendo os elementos

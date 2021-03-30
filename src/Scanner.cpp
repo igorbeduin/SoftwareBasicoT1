@@ -61,3 +61,8 @@ void Scanner::print_elements()
 {
     tokensTable.print_elements();
 }
+
+TokensTable Scanner::get_tokens_table()
+{
+    return tokensTable;
+}
