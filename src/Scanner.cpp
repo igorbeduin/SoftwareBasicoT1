@@ -62,3 +62,6 @@ void Scanner::print_elements()
 {
     TokensTable::print_elements();
 }
+
+void Scanner::verify_lexical_errors()
+{}

@@ -9,4 +9,5 @@ class SymbTable{
         void insert_symbol(std::string symbol);
         bool exist(std::string symbol);
         void insert_value(std::string symbol, int value);
+        int get_value(std::string symbol);
 };

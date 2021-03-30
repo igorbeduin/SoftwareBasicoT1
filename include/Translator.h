@@ -20,6 +20,7 @@ class Translator
     public:
         Translator(std::string programName);
         ~Translator();
+        void mount_elements_array();
         void first_pass();
         void second_pass();
         void write_output(std::string outputFile);

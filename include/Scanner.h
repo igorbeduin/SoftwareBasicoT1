@@ -16,4 +16,5 @@ class Scanner
         void reset_indexes();
         void classify_elements();
         void print_elements();
+        void verify_lexical_errors();
 };

@@ -15,3 +15,8 @@ void SymbTable::insert_value(std::string symbol, int value)
 {
     table[symbol] = value;
 }
+
+int SymbTable::get_value(std::string symbol)
+{
+    return table[symbol];
+}

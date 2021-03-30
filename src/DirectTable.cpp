@@ -64,11 +64,11 @@ DirectTable::DirectTable()
     dummyMap["WORDS"] = 1;
     directTable["STOP"] = dummyMap;
 
-    dummyMap["OP_CODE"] = 15;
+    dummyMap["OP_CODE"] = 0;
     dummyMap["WORDS"] = 1;
     directTable["SPACE"] = dummyMap;
 
-    dummyMap["OP_CODE"] = 16;
+    dummyMap["OP_CODE"] = 0;
     dummyMap["WORDS"] = 1;
     directTable["CONST"] = dummyMap;
 }

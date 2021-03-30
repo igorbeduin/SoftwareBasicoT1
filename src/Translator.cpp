@@ -87,21 +87,29 @@ int Translator::get_n_linesRead()
 
 void Translator::first_pass() 
 {
-    int lineCounter;
-    for (uint i = 0; i < orgLines.size(); i++)
-    {   
-        lineCounter = i + 1;
-        std::string line = orgLines[i];
-        scanner.split_elements(line, lineCounter);
-    }       
+    mount_elements_array();
     // scanner.print_elements();
     scanner.classify_elements();
+    scanner.verify_lexical_errors();
 }
 void Translator::second_pass() 
 {
-    // TODO: Implementar segunda passada
+    parser.verify_syntactic_errors();
+    parser.mount_output();
 }
+
 void Translator::write_output(std::string outputFile) 
 {
     // TODO: Implementar escrita no arquivo final
+}
+
+void Translator::mount_elements_array()
+{
+    int lineCounter;
+    for (uint i = 0; i < orgLines.size(); i++)
+    {
+        lineCounter = i + 1;
+        std::string line = orgLines[i];
+        scanner.split_elements(line, lineCounter);
+    }
 }

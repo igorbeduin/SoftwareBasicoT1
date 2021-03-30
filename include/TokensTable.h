@@ -11,13 +11,13 @@
 class TokensTable
 {
     private:
+    public:
         static std::vector<std::string> elements;
         static std::vector<int> elementsLine;
         static std::vector<std::string> elementsClass;
         static std::map<std::string, int> dataSection;
         static std::map<std::string, int> textSection;
         static SymbTable symbTable;
-    public:
         static void insert_token(std::string element, int elementLine, std::string elementClass);
         static void print_elements();
         static void classify_tokens();
