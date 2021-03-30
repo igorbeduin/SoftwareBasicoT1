@@ -45,13 +45,20 @@ void TokensTable::classify_tokens()
         } else if (is_argument(elements[i]))
         {
             elementsClass[i] = StaticSymbols::argumentClass;
-        } else if (is_symbol(elements[i]))
-        {
-            elementsClass[i] = StaticSymbols::symbolClass;
         } else if (is_section_mark(elements[i]) && is_section_mark(elements[i+1]))
         {
             elementsClass[i] = StaticSymbols::ignoreClass;
             elementsClass[i + 1] = StaticSymbols::ignoreClass;
+        }
+    }
+    for (uint i = 0; i < elements.size(); i++)
+    {
+        if (elementsClass[i] == StaticSymbols::dummyClass)
+        {
+            if (is_symbol(elements[i]))
+            {
+                elementsClass[i] = StaticSymbols::symbolClass;
+            }
         }
     }
 }

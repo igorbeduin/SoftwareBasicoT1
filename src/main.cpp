@@ -13,7 +13,7 @@ int main(int argc, char **argv)
 
     Translator translator(programName);
 
-    translator.read_file(false);
+    translator.read_file(true);
     translator.first_pass();
     translator.second_pass();
     translator.write_output(outputFile);
