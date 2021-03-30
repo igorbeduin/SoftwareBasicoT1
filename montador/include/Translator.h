@@ -18,7 +18,7 @@ class Translator
         Parser parser;
         std::string commentMark = ";";
         std::string extensionMark = ".";
-        std::string outputExt = ".OBJ";
+        std::string outputExt = ".obj";
 
     public:
         Translator(std::string programName);
