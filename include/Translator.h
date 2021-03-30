@@ -4,7 +4,6 @@
 #include <vector>
 #include <locale>
 
-#include "SymbTable.h"
 #include "Scanner.h"
 
 
@@ -18,7 +17,6 @@ class Translator
         static int pc;
         int lineCounter = 0;
         int posCounter = 1;
-        SymbTable symbTable;
         Scanner scanner;
         std::string commentMark = ";";
 

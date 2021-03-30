@@ -13,6 +13,7 @@ class StaticSymbols
         static std::string dummyClass;
         static std::string labelSeparatorClass;
         static std::string argumentSeparatorClass;
+        static std::string argumentClass;
         static std::string operationClass;
 
         static std::string sectionMark;

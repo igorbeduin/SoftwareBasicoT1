@@ -26,11 +26,24 @@ void TokensTable::classify_tokens()
         } else if (is_label_sep(elements[i]))
         {
             elementsClass[i-1] = StaticSymbols::labelClass;
+            if (!symbTable.exist(elements[i-1]))
+            {
+                symbTable.insert_symbol(elements[i - 1]);
+            } else 
+            {
+                // TODO: Implementar erro de quando a label ja existe na primeira passada
+            }
             elementsClass[i] = StaticSymbols::labelSeparatorClass;
         } else if (is_argument_sep(elements[i]))
         {
             elementsClass[i] = StaticSymbols::argumentSeparatorClass;
-        } 
+        } else if (is_argument(elements[i]))
+        {
+            elementsClass[i] = StaticSymbols::argumentClass;
+        } else if (is_symbol(elements[i]))
+        {
+            
+        }
     }
 }
 
@@ -55,8 +68,16 @@ bool TokensTable::is_operation(std::string element)
 }
 
 bool TokensTable::is_argument(std::string element)
-{ // TODO:
-    return false;
+{
+    try
+    {
+        std::stoi(element);
+        return true;
+    }
+    catch(const std::exception& e)
+    {
+        return false;
+    }
 }
 
 void TokensTable::search_for_sections()

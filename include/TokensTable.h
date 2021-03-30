@@ -5,6 +5,7 @@
 #include <algorithm>
 
 #include "DirectTable.h"
+#include "SymbTable.h"
 
 
 class TokensTable
@@ -15,6 +16,7 @@ class TokensTable
         std::vector<std::string> elementsClass;
         std::map<std::string, int> dataSection;
         std::map<std::string, int> textSection;
+        SymbTable symbTable;
     public:
         void insert_token(std::string element, int elementLine, std::string elementClass);
         void print_elements();
