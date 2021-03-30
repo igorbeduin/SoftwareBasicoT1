@@ -5,7 +5,7 @@
 #include <locale>
 
 #include "Scanner.h"
-
+#include "Parser.h"
 
 class Translator 
 {
@@ -18,6 +18,7 @@ class Translator
         int lineCounter = 0;
         int posCounter = 1;
         Scanner scanner;
+        Parser parser;
         std::string commentMark = ";";
 
     public:
