@@ -9,7 +9,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/montador",
-            "args": ["test2.asm"],
+            "args": ["test3.asm"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
