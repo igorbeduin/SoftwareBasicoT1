@@ -87,6 +87,7 @@ int Translator::get_n_linesRead()
 
 void Translator::first_pass() 
 {
+    int lineCounter;
     for (uint i = 0; i < orgLines.size(); i++)
     {   
         lineCounter = i + 1;

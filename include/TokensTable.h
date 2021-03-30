@@ -10,13 +10,14 @@
 
 class TokensTable
 {
-    public:
+    private:
         std::vector<std::string> elements;
         std::vector<int> elementsLine;
         std::vector<std::string> elementsClass;
         std::map<std::string, int> dataSection;
         std::map<std::string, int> textSection;
         SymbTable symbTable;
+    public:
         void insert_token(std::string element, int elementLine, std::string elementClass);
         void print_elements();
         void classify_tokens();
@@ -28,4 +29,5 @@ class TokensTable
         bool is_section_mark(std::string element);
         bool is_in_text_section(int index);
         void search_for_sections();
+        void fill_symb_table();
 };

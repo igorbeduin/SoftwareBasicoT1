@@ -13,10 +13,6 @@ class Translator
         std::string programName;
         std::ifstream inputFile;
         std::vector<std::string> orgLines;
-        static int acc;
-        static int pc;
-        int lineCounter = 0;
-        int posCounter = 1;
         Scanner scanner;
         Parser parser;
         std::string commentMark = ";";

@@ -25,36 +25,20 @@ void TokensTable::classify_tokens()
             elementsClass[i] = StaticSymbols::operationClass;
         } else if (is_label_sep(elements[i]))
         {
-            if (is_in_text_section(i))
+            if (elementsClass[i-1]==StaticSymbols::dummyClass)
             {
-                if (elementsClass[i-1]==StaticSymbols::dummyClass)
-                {
-                    elementsClass[i-1] = StaticSymbols::labelClass;
-                }
-                elementsClass[i] = StaticSymbols::labelSeparatorClass;
-                if (!symbTable.exist(elements[i - 1]))
-                {
-                    symbTable.insert_symbol(elements[i - 1]);
-                }
-                else
-                {
-                    // TODO: Implementar erro de quando a label ja existe na primeira passada
-                }
-            } else 
-            {
-                if (elementsClass[i - 1] == StaticSymbols::dummyClass)
-                {
-                    elementsClass[i - 1] = StaticSymbols::symbolClass;
-                }
-                elementsClass[i] = StaticSymbols::labelSeparatorClass;
-                if (!symbTable.exist(elements[i-1]))
-                {
-                    symbTable.insert_symbol(elements[i - 1]);
-                } else 
-                {
-                    // TODO: Implementar erro de quando a label ja existe na primeira passada
-                }
+                elementsClass[i-1] = StaticSymbols::labelClass;
             }
+            elementsClass[i] = StaticSymbols::labelSeparatorClass;
+            if (!symbTable.exist(elements[i - 1]))
+            {
+                symbTable.insert_symbol(elements[i - 1]);
+            }
+            else
+            {
+                // TODO: Implementar erro de quando a label ja existe na primeira passada
+            }
+
         } else if (is_argument_sep(elements[i]))
         {
             elementsClass[i] = StaticSymbols::argumentSeparatorClass;
@@ -149,4 +133,23 @@ bool TokensTable::is_section_mark(std::string element)
 bool TokensTable::is_in_text_section(int index)
 {
     return (index >= textSection["begin"] && index <= textSection["end"]);
+}
+
+void TokensTable::fill_symb_table()
+{
+    int lineCounter = 0;
+    for (uint i = 0; i < elements.size(); i++)
+    {
+        if (elementsClass[i] != StaticSymbols::ignoreClass)
+        {
+            if (elementsClass[i] == StaticSymbols::labelClass)
+            {
+                symbTable.insert_value(elements[i], lineCounter);
+            }
+            if (elementsClass[i] == StaticSymbols::operationClass)
+            {
+                lineCounter += DirectTable::directTable[elements[i]]["WORDS"];
+            }
+        }
+    }
 }

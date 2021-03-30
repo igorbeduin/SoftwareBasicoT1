@@ -55,6 +55,7 @@ void Scanner::classify_elements()
 {
     tokensTable.search_for_sections();
     tokensTable.classify_tokens();
+    tokensTable.fill_symb_table();
 }
 
 void Scanner::print_elements()
