@@ -45,7 +45,7 @@ std::string Translator::remove_mult_spaces(std::string line)
 {
     for (uint i = 0; i < line.length() - 1; i++)
     {
-        if (line[i] == line[i + 1]) 
+        if (line[i] == line[i + 1] && line[i] == ' ') 
         {
             line.erase(i, 1);
             i = 0;
