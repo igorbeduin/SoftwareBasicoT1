@@ -12,3 +12,5 @@
     [] Verificar erros sintaticos
         [] Rotina de verificaçao de regra para cada classe
     [x] Montar tabela de simbolos percorrendo os elementos
+    [x] Montar array de saida
+    [x] Escrever arquivo de saida
