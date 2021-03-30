@@ -15,6 +15,7 @@ class StaticSymbols
         static std::string argumentSeparatorClass;
         static std::string argumentClass;
         static std::string operationClass;
+        static std::string symbolClass;
 
         static std::string sectionMark;
         static std::string dataSectionMark;

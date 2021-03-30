@@ -25,5 +25,6 @@ class TokensTable
         bool is_argument_sep(std::string element);
         bool is_operation(std::string element);
         bool is_argument(std::string element);
+        bool is_symbol(std::string element);
         void search_for_sections();
 };

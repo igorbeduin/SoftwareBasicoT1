@@ -12,6 +12,7 @@ std::string StaticSymbols::dummyClass = "";
 std::string StaticSymbols::argumentClass = "argument";
 std::string StaticSymbols::labelClass = "label";
 std::string StaticSymbols::operationClass = "operation";
+std::string StaticSymbols::symbolClass = "symbol";
 
 std::string StaticSymbols::sectionMark = "SECTION";
 std::string StaticSymbols::dataSectionMark = "DATA";

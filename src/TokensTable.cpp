@@ -42,7 +42,7 @@ void TokensTable::classify_tokens()
             elementsClass[i] = StaticSymbols::argumentClass;
         } else if (is_symbol(elements[i]))
         {
-            
+            elementsClass[i] = StaticSymbols::symbolClass;
         }
     }
 }
@@ -105,4 +105,9 @@ void TokensTable::search_for_sections()
     {
         dataSection["end"] = elements.size() - 1;
     }
+}
+
+bool TokensTable::is_symbol(std::string element)
+{
+    return symbTable.exist(element);
 }
