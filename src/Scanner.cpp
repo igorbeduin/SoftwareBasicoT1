@@ -53,8 +53,8 @@ void Scanner::reset_indexes()
 
 void Scanner::classify_elements()
 {
-    tokensTable.classify_tokens();
     tokensTable.search_for_sections();
+    tokensTable.classify_tokens();
 }
 
 void Scanner::print_elements()

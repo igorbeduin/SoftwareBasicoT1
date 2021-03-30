@@ -1,10 +1,7 @@
 #include "../include/Parser.h"
 
-void Parser::configure(TokensTable tokensTable)
-{
-    classifiedTokensTable = tokensTable;
-}
-
+void Parser::configure()
+{}
 void Parser::set_elements()
 {}
 void Parser::set_elements_lines()

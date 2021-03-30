@@ -95,7 +95,6 @@ void Translator::first_pass()
     }       
     // scanner.print_elements();
     scanner.classify_elements();
-    parser.configure(scanner.get_tokens_table());
 }
 void Translator::second_pass() 
 {
