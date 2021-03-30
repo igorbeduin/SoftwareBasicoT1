@@ -17,9 +17,15 @@ void Parser::mount_output()
         int memNumber = -1;
         if (TokensTable::elementsClass[i] == StaticSymbols::operationClass)
         {
-            memNumber = DirectTable::directTable[TokensTable::elements[i]]["OP_CODE"];
+            if (TokensTable::elements[i] == "CONST") 
+            {
+                memNumber = (TokensTable::elementsClass[i + 1] == StaticSymbols::argumentClass)? std::stoi(TokensTable::elements[i+1]):0;
+            } else
+            {
+                memNumber = DirectTable::directTable[TokensTable::elements[i]]["OP_CODE"];
+            }
         } else if (TokensTable::elementsClass[i] == StaticSymbols::symbolClass)
-        {
+        {   
             memNumber = TokensTable::symbTable.get_value(TokensTable::elements[i]);
         }
         if (memNumber != -1)
