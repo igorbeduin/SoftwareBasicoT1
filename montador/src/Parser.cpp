@@ -17,7 +17,7 @@ void Parser::mount_output()
     {   
         if ((int)i == TokensTable::dataSection["begin"])
         {
-            outputStringVector.insert(outputStringVector.begin(), std::to_string(outputStringVector.size() + 1));
+            outputStringVector.insert(outputStringVector.begin(), std::to_string(outputStringVector.size()));
         }
         int memNumber = -1;
         if (TokensTable::elementsClass[i] == StaticSymbols::operationClass)
