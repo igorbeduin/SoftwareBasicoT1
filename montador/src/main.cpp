@@ -15,7 +15,10 @@ int main(int argc, char **argv)
 
     translator.read_file(false);
     translator.first_pass();
-    translator.second_pass();
+    if (!TokensTable::get_quit_request())
+    {
+        translator.second_pass();
+    }
     if (!TokensTable::get_quit_request())
     {
         translator.write_output(programName);
