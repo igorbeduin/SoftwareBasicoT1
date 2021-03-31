@@ -11,7 +11,10 @@
 class TokensTable
 {
     private:
+        static bool quitRequest;
     public:
+        static int max_length;
+        static std::vector<char> letters;
         static std::vector<char> numbers;
         static std::vector<std::string> elements;
         static std::vector<int> elementsLine;
@@ -27,8 +30,11 @@ class TokensTable
         static bool is_operation(std::string element);
         static bool is_argument(std::string element);
         static bool is_symbol(std::string element);
+        static bool is_symbol_candidate(std::string element);
         static bool is_section_mark(std::string element);
         static bool is_in_text_section(int index);
         static void search_for_sections();
         static void fill_symb_table();
+        static bool lexical_error(int index);
+        static bool get_quit_request();
 };

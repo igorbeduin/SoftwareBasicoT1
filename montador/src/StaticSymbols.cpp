@@ -13,6 +13,7 @@ std::string StaticSymbols::argumentClass = "argument";
 std::string StaticSymbols::labelClass = "label";
 std::string StaticSymbols::operationClass = "operation";
 std::string StaticSymbols::symbolClass = "symbol";
+std::string StaticSymbols::symbolCandidateClass = "cand_symbol";
 std::string StaticSymbols::ignoreClass = "ignore";
 
 std::string StaticSymbols::sectionMark = "SECTION";

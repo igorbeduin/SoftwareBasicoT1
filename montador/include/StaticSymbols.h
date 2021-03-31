@@ -16,6 +16,7 @@ class StaticSymbols
         static std::string argumentClass;
         static std::string operationClass;
         static std::string symbolClass;
+        static std::string symbolCandidateClass;
         static std::string ignoreClass;
 
         static std::string sectionMark;

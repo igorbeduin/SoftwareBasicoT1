@@ -90,7 +90,6 @@ void Translator::first_pass()
     mount_elements_array();
     // scanner.print_elements();
     scanner.classify_elements();
-    scanner.verify_lexical_errors();
 }
 void Translator::second_pass() 
 {
