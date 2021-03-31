@@ -221,7 +221,8 @@ bool TokensTable::lexical_error(int index)
     }
     if (found)
     {
-        std::cout << std::endl << "ERRO LEXICO NA LINHA " << elementsLine[index] << std::endl;
+        std::cout << std::endl << std::endl << ">>>> ERRO LEXICO NA LINHA " << elementsLine[index] << " <<<<" << std::endl;
+        std::cout << "Abortando o programa..." << std::endl << std::endl;
     }
     return found;
 }
