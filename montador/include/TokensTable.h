@@ -12,6 +12,7 @@ class TokensTable
 {
     private:
     public:
+        static std::vector<char> numbers;
         static std::vector<std::string> elements;
         static std::vector<int> elementsLine;
         static std::vector<std::string> elementsClass;

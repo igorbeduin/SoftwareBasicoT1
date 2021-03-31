@@ -7,6 +7,7 @@ std::vector<std::string> TokensTable::elementsClass;
 std::map<std::string, int> TokensTable::dataSection;
 std::map<std::string, int> TokensTable::textSection;
 SymbTable TokensTable::symbTable;
+std::vector<char> TokensTable::numbers = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 
 void TokensTable::insert_token(std::string element, int elementLine, std::string elementClass)
 {
@@ -92,15 +93,14 @@ bool TokensTable::is_operation(std::string element)
 
 bool TokensTable::is_argument(std::string element)
 {
-    try
+    for (uint i = 0; i < element.length(); i++)
     {
-        std::stoi(element);
-        return true;
+        if (std::find(numbers.begin(), numbers.end(), element[i]) == numbers.end())
+        {
+            return false;
+        }
     }
-    catch(const std::exception& e)
-    {
-        return false;
-    }
+    return true;
 }
 
 void TokensTable::search_for_sections()
