@@ -2,12 +2,10 @@
 #include "../include/CodeTable.h"
 #include "../include/DirectTable.h"
 
-int Simulator::defaultValue = std::numeric_limits<int>::min();
 
-    Simulator::Simulator(std::string programPath)
+Simulator::Simulator(std::string programPath)
 {
     inputProgramPath = programPath;
-    std::fill_n(memory, 500, Simulator::defaultValue);
 }
 
 Simulator::~Simulator()
@@ -16,12 +14,14 @@ Simulator::~Simulator()
 
 void Simulator::read_obj_file()
 {
+    int i = 0;
     objectFile.open(inputProgramPath);
     while (!objectFile.eof())
     {
         std::string code;
         objectFile >> code;
-        codeArray.push_back(code);
+        memory[i] = std::stoi(code);
+        i++;
     }
     objectFile.close();
 }
@@ -29,25 +29,14 @@ void Simulator::read_obj_file()
 void Simulator::execute()
 {
     int arguments;
-    for (int i = std::stoi(codeArray[0]); i < codeArray.size(); i++)
+    int code;
+    for (int i = 0; !quitRequest; i++)
     {
-        int code;
-        code = std::stoi(codeArray[i]);
-        memory[i] = code;
-    }
-
-    for (uint i = 1; i < std::stoi(codeArray[0]); i++)
-    {
-        int code;
-        code = std::stoi(codeArray[i]);
+        code = memory[i];
         std::string op = CodeTable::codeTable[code];
         arguments = DirectTable::directTable[op]["WORDS"] - 1;
         process_operation(op, arguments, i);
         i += arguments; 
-        if (quitRequest)
-        {
-            break;
-        }
     }
 }
 
@@ -56,66 +45,66 @@ void Simulator::process_operation(std::string op, int waitValues, int index)
 
     if (op == "ADD")
     {
-        acc = acc + memory[std::stoi(codeArray[index + 1])];
+        acc = acc + memory[index + 1];
     }
     else if (op == "SUB")
     {
-        acc = acc - memory[std::stoi(codeArray[index + 1])];
+        acc = acc - memory[index + 1];
     }
     else if (op == "MUL")
     {
-        acc = acc * memory[std::stoi(codeArray[index + 1])];
+        acc = acc * memory[index + 1];
     }
     else if (op == "DIV")
     {
-        acc = acc / memory[std::stoi(codeArray[index + 1])];
+        acc = acc / memory[index + 1];
     }
     else if (op == "JMP")
     {
-        pc = std::stoi(codeArray[index + 1]);
+        pc = memory[index + 1];
     }
     else if (op == "JMPN")
     {
         if (acc < 0)
         {
-            pc = std::stoi(codeArray[index + 1]);
+            pc = memory[index + 1];
         }
     }
     else if (op == "JMPP")
     {
         if (acc > 0)
         {
-            pc = std::stoi(codeArray[index + 1]);
+            pc = memory[index + 1];
         }
     }
     else if (op == "JMPZ")
     {
         if (acc == 0)
         {
-            pc = std::stoi(codeArray[index + 1]);
+            pc = memory[index + 1];
         }
     }
     else if (op == "COPY")
     {
-        memory[std::stoi(codeArray[index + 2])] = memory[std::stoi(codeArray[index + 1])];
+        memory[index + 2] = memory[index + 1];
     }
     else if (op == "LOAD")
     {
-        acc = memory[std::stoi(codeArray[index + 1])];
+        acc = memory[index + 1];
     }
     else if (op == "STORE")
     {
-        memory[std::stoi(codeArray[index + 1])] = acc;
+        memory[index + 1] = acc;
     }
     else if (op == "INPUT")
     {
         std::string aux;
         std::cin >> aux;
-        memory[std::stoi(codeArray[index + 1])] = std::stoi(aux);
+        memory[index + 1] = std::stoi(aux);
     }
     else if (op == "OUTPUT")
     {
-        std::cout << (std::to_string(memory[std::stoi(codeArray[index + 1])])) << std::endl;
+        std::cout << (std::to_string(memory[index + 1])) << std::endl;
         // escreve no arquivo de saida
     }
     else if (op == "STOP")

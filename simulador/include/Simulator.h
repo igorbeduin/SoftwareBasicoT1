@@ -3,13 +3,10 @@
 #include <string>
 #include <vector>
 #include <algorithm>
-#include <limits>
 
 class Simulator
 {
 private:
-    static int defaultValue;
-    std::vector<std::string> codeArray;
     std::string inputProgramPath;
     std::ifstream objectFile;
     int memory[216];
