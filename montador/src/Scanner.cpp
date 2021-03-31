@@ -59,6 +59,10 @@ void Scanner::classify_elements()
     {
         TokensTable::fill_symb_table();
     }
+    if (!TokensTable::get_quit_request())
+    {
+        TokensTable::fill_symb_table();
+    }
 }
 
 void Scanner::print_elements()

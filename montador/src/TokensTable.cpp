@@ -60,7 +60,8 @@ void TokensTable::classify_tokens()
             }
             else
             {
-                // TODO: Implementar erro de quando a label ja existe na primeira passada
+                raise_semantic_error(i);
+                break;
             }
 
         } else if (is_argument_sep(elements[i]))
@@ -78,7 +79,7 @@ void TokensTable::classify_tokens()
             elementsClass[i] = StaticSymbols::symbolCandidateClass;
             if (lexical_error(i))
             {
-                quitRequest = true;
+                set_quit_request(true);
                 break;
             }
         }
@@ -237,4 +238,11 @@ bool TokensTable::get_quit_request()
 void TokensTable::set_quit_request(bool request)
 {
     quitRequest = request;
+}
+
+void TokensTable::raise_semantic_error(int index)
+{
+        std::cout << std::endl << std::endl << ">>>> ERRO SEMANTICO NA L" << elementsLine[index] << " <<<<" << std::endl;
+        std::cout << "Abortando o programa..." << std::endl << std::endl;
+        set_quit_request(true);
 }

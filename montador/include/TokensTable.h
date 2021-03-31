@@ -38,4 +38,5 @@ class TokensTable
         static bool lexical_error(int index);
         static bool get_quit_request();
         static void set_quit_request(bool request);
+        static void raise_semantic_error(int index);
 };
