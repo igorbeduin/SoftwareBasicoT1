@@ -22,6 +22,7 @@ int main(int argc, char **argv)
     if (!TokensTable::get_quit_request())
     {
         translator.write_output(programName);
+        std::cout << std::endl << "SUCCESS!" << std::endl;
     }
 
     return 0;
