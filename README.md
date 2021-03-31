@@ -31,8 +31,6 @@ O programa "simulador" recebe como argumento um código .obj. Caso o programa ch
 - Existe mensagens de comunicação com o usuário no caso das diretivas OUTPUT e INPUT, a fim de se facilitar o entendimento da execução;
 - o simulador possui uma memória fixa de 216 palavras;
 
-Como a posição de encerramento da seção de dados é indicada no início do código .obj, o "montador" e "simulador" não são sensíveis à posição das seções, isto é, devem funcionar tanto se a seção de dados vier no início ou no fim. No entando, ainda as seções devem vir indicadas no código .asm.
-
 ### Exemplo de uso do montador:
 
 ```
