@@ -39,4 +39,6 @@ class TokensTable
         static bool get_quit_request();
         static void set_quit_request(bool request);
         static void raise_semantic_error(int index);
+        static void raise_syntactic_error(int index);
+        static void find_first_pass_errors();
 };

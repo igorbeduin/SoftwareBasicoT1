@@ -197,6 +197,23 @@ void TokensTable::fill_symb_table()
     }
 }
 
+void TokensTable::find_first_pass_errors()
+{   
+    for (uint i = 0; i < elements.size(); i++)
+    {
+        if (elementsClass[i] == StaticSymbols::symbolCandidateClass)
+        {
+            raise_semantic_error(i);
+            break;
+        }
+        if (elementsClass[i] == StaticSymbols::dummyClass)
+        {
+            raise_syntactic_error(i);
+            break;
+        }
+    }
+}
+
 bool TokensTable::lexical_error(int index)
 {
     bool found = false;
@@ -243,6 +260,13 @@ void TokensTable::set_quit_request(bool request)
 void TokensTable::raise_semantic_error(int index)
 {
         std::cout << std::endl << std::endl << ">>>> ERRO SEMANTICO NA L" << elementsLine[index] << " <<<<" << std::endl;
+        std::cout << "Abortando o programa..." << std::endl << std::endl;
+        set_quit_request(true);
+}
+
+void TokensTable::raise_syntactic_error(int index)
+{
+        std::cout << std::endl << std::endl << ">>>> ERRO SINTATICO NA L" << elementsLine[index] << " <<<<" << std::endl;
         std::cout << "Abortando o programa..." << std::endl << std::endl;
         set_quit_request(true);
 }

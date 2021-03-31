@@ -57,7 +57,7 @@ void Scanner::classify_elements()
     TokensTable::classify_tokens();
     if (!TokensTable::get_quit_request())
     {
-        TokensTable::fill_symb_table();
+        TokensTable::find_first_pass_errors();
     }
     if (!TokensTable::get_quit_request())
     {
