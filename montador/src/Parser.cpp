@@ -20,12 +20,23 @@ void Parser::mount_output()
             outputStringVector.insert(outputStringVector.begin(), std::to_string(outputStringVector.size()));
         }
 
-        int memNumber = -1;
+        int memNumber = std::numeric_limits<int>::min();
         if (TokensTable::elementsClass[i] == StaticSymbols::operationClass)
         {
             if (TokensTable::elements[i] == "CONST") 
             {
-                memNumber = (TokensTable::elementsClass[i + 1] == StaticSymbols::argumentClass)? std::stoi(TokensTable::elements[i+1]):0;
+                if (TokensTable::elementsClass[i + 1] == StaticSymbols::argumentClass)
+                {
+                    if (TokensTable::elements[i+1][0] == '-'){
+                        std::string number = TokensTable::elements[i + 1].substr(1);
+                        memNumber = (-1) * std::stoi(number);
+                    }
+                    else
+                    {
+                        memNumber = std::stoi(TokensTable::elements[i + 1]);
+                    }
+                }
+
             } else
             {
                 memNumber = DirectTable::directTable[TokensTable::elements[i]]["OP_CODE"];
@@ -34,7 +45,7 @@ void Parser::mount_output()
         {   
             memNumber = TokensTable::symbTable.get_value(TokensTable::elements[i]);
         }
-        if (memNumber != -1)
+        if (memNumber != std::numeric_limits<int>::min())
         {
             std::string out = std::to_string(memNumber);
             outputStringVector.push_back(out);

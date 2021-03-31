@@ -120,6 +120,12 @@ bool TokensTable::is_operation(std::string element)
 
 bool TokensTable::is_argument(std::string element)
 {
+
+    if ((element[0]) == '-')
+    {
+        element.erase(0, 1);
+    }
+    
     for (uint i = 0; i < element.length(); i++)
     {
         char character = element[i];
