@@ -28,6 +28,7 @@ void Translator::read_file(bool showLines)
         while (getline(inputFile, currLine))
         {
             correctedLine = remove_comments(currLine);
+            correctedLine = remove_ending_space(correctedLine);
             correctedLine = convert_to_uppercase(correctedLine);
             correctedLine = remove_mult_spaces(correctedLine);
             orgLines.push_back(correctedLine);
@@ -125,4 +126,13 @@ void Translator::mount_elements_array()
         std::string line = orgLines[i];
         scanner.split_elements(line, lineCounter);
     }
+}
+
+std::string Translator::remove_ending_space(std::string line)
+{
+    while (line[line.size() - 1] == ' ')
+    {
+        line.erase(line.size() - 1, 1);
+    }
+    return line;
 }
