@@ -37,6 +37,10 @@ void Simulator::execute()
         arguments = DirectTable::directTable[op]["WORDS"] - 1;
         process_operation(op, arguments, i);
         i += arguments; 
+        if (quitRequest)
+        {
+            break;
+        }
     }
 }
 
@@ -45,36 +49,56 @@ void Simulator::process_operation(std::string op, int waitValues, int index)
 
     if (op == "ADD")
     {
+        acc = acc + memory[std::stoi(codeArray[index + 1])];
     }
     else if (op == "SUB")
     {
+        acc = acc - memory[std::stoi(codeArray[index + 1])];
     }
     else if (op == "MUL")
     {
+        acc = acc * memory[std::stoi(codeArray[index + 1])];
     }
     else if (op == "DIV")
     {
+        acc = acc / memory[std::stoi(codeArray[index + 1])];
     }
     else if (op == "JMP")
     {
+        pc = std::stoi(codeArray[index + 1]);
     }
     else if (op == "JMPN")
     {
+        if (acc < 0)
+        {
+            pc = std::stoi(codeArray[index + 1]);
+        }
     }
     else if (op == "JMPP")
     {
+        if (acc > 0)
+        {
+            pc = std::stoi(codeArray[index + 1]);
+        }
     }
     else if (op == "JMPZ")
     {
+        if (acc == 0)
+        {
+            pc = std::stoi(codeArray[index + 1]);
+        }
     }
     else if (op == "COPY")
     {
+        memory[std::stoi(codeArray[index + 2])] = memory[std::stoi(codeArray[index + 1])];
     }
     else if (op == "LOAD")
     {
+        acc = memory[std::stoi(codeArray[index + 1])];
     }
     else if (op == "STORE")
     {
+        memory[std::stoi(codeArray[index + 1])] = acc;
     }
     else if (op == "INPUT")
     {
@@ -84,8 +108,16 @@ void Simulator::process_operation(std::string op, int waitValues, int index)
     }
     else if (op == "OUTPUT")
     {
+        std::cout << (std::to_string(memory[std::stoi(codeArray[index + 1])])) << std::endl;
+        // escreve no arquivo de saida
     }
     else if (op == "STOP")
     {
+        quitRequest = true;
     }
+}
+
+bool Simulator::get_quit_request()
+{
+    return quitRequest;
 }
