@@ -28,86 +28,89 @@ void Simulator::read_obj_file()
 
 void Simulator::execute()
 {
-    int arguments;
     int code;
     while (!quitRequest)
     {
+        jump = false;
         code = memory[pc];
-        std::string op = CodeTable::codeTable[code];
-        arguments = DirectTable::directTable[op]["WORDS"] - 1;
-        process_operation(op, arguments, pc);
-        pc += arguments; 
+        std::string operation = CodeTable::codeTable[code];
+        process_operation(operation);
+        pc += (jump ? 0 : DirectTable::directTable[operation]["WORDS"]);
     }
 }
 
-void Simulator::process_operation(std::string op, int waitValues, int index)
+void Simulator::process_operation(std::string operation)
 {
 
-    if (op == "ADD")
+    if (operation == "ADD")
     {
-        acc = acc + memory[memory[index + 1]];
+        acc = acc + memory[memory[pc + 1]];
     }
-    else if (op == "SUB")
+    else if (operation == "SUB")
     {
-        acc = acc - memory[memory[index + 1]];
+        acc = acc - memory[memory[pc + 1]];
     }
-    else if (op == "MUL")
+    else if (operation == "MUL")
     {
-        acc = acc * memory[memory[index + 1]];
+        acc = acc * memory[memory[pc + 1]];
     }
-    else if (op == "DIV")
+    else if (operation == "DIV")
     {
-        acc = acc / memory[memory[index + 1]];
+        acc = acc / memory[memory[pc + 1]];
     }
-    else if (op == "JMP")
+    else if (operation == "JMP")
     {
-        pc = memory[index + 1];
+        pc = memory[pc + 1];
+        jump = true;
     }
-    else if (op == "JMPN")
+    else if (operation == "JMPN")
     {
         if (acc < 0)
         {
-            pc = memory[index + 1];
+            pc = memory[pc + 1];
+            jump = true;
         }
     }
-    else if (op == "JMPP")
+    else if (operation == "JMPP")
     {
         if (acc > 0)
         {
-            pc = memory[index + 1];
+            pc = memory[pc + 1];
+            jump = true;
         }
     }
-    else if (op == "JMPZ")
+    else if (operation == "JMPZ")
     {
         if (acc == 0)
         {
-            pc = memory[index + 1];
+            pc = memory[pc + 1];
+            jump = true;
         }
     }
-    else if (op == "COPY")
+    else if (operation == "COPY")
     {
-        memory[memory[index + 2]] = memory[memory[index + 1]];
+        memory[memory[pc + 2]] = memory[memory[pc + 1]];
     }
-    else if (op == "LOAD")
+    else if (operation == "LOAD")
     {
-        acc = memory[memory[index + 1]];
+        acc = memory[memory[pc + 1]];
     }
-    else if (op == "STORE")
+    else if (operation == "STORE")
     {
-        memory[memory[index + 1]] = acc;
+        memory[memory[pc + 1]] = acc;
     }
-    else if (op == "INPUT")
+    else if (operation == "INPUT")
     {
         std::string aux;
         std::cin >> aux;
-        memory[memory[index + 1]] = std::stoi(aux);
+        memory[memory[pc + 1]] = std::stoi(aux);
     }
-    else if (op == "OUTPUT")
+    else if (operation == "OUTPUT")
     {
-        std::cout << (std::to_string(memory[memory[index + 1]])) << std::endl;
+        std::cout << (std::to_string(memory[memory[pc + 1]])) << std::endl;
         // escreve no arquivo de saida
     }
-    else if (op == "STOP")
+    else if (operation == "STOP")
     {
         quitRequest = true;
     }
