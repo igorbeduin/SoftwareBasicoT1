@@ -29,7 +29,14 @@ void Simulator::read_obj_file()
 void Simulator::execute()
 {
     int arguments;
-    for (uint i = 0; i < codeArray.size(); i++)
+    for (int i = std::stoi(codeArray[0]); i < codeArray.size(); i++)
+    {
+        int code;
+        code = std::stoi(codeArray[i]);
+        memory[i] = code;
+    }
+
+    for (uint i = 1; i < std::stoi(codeArray[0]); i++)
     {
         int code;
         code = std::stoi(codeArray[i]);
