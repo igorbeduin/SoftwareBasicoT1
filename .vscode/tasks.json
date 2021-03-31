@@ -5,7 +5,7 @@
             "command": "make",
             "args": [],
             "options": {
-                "cwd": "${workspaceFolder}/montador"
+                "cwd": "${workspaceFolder}/simulador"
             }
         }
     ],
