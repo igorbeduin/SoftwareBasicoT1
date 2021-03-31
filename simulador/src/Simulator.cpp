@@ -28,18 +28,15 @@ void Simulator::read_obj_file()
 
 void Simulator::execute()
 {
-    int arguments = 0;
+    int arguments;
     for (uint i = 0; i < codeArray.size(); i++)
     {
         int code;
         code = std::stoi(codeArray[i]);
-        if (arguments == 0)
-        {
-            std::string op = CodeTable::codeTable[code];
-            arguments = DirectTable::directTable[op]["WORDS"] - 1;
-            process_operation(op, arguments, i);
-            i += arguments;
-        } 
+        std::string op = CodeTable::codeTable[code];
+        arguments = DirectTable::directTable[op]["WORDS"] - 1;
+        process_operation(op, arguments, i);
+        i += arguments; 
     }
 }
 
