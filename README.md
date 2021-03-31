@@ -1,7 +1,7 @@
 # SoftwareBasicoT1
 Repositório para versionamento do Trabalho 1 da disciplina Software Básico da Universidade de Brasília.
 
-Este repositorio possui dois programas: "montador" e "simulador". Os dois são compilados via `Makefile`, cada um com seu respectivo arquivo em seu diretório.
+Este repositorio (https://github.com/igorbeduin/SoftwareBasicoT1) possui dois programas: "montador" e "simulador". Os dois são compilados via `Makefile`, cada um com seu respectivo arquivo em seu diretório.
 
 Aluno: Igor Raposo Oliveira Beduin
 
