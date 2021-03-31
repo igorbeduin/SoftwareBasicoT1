@@ -15,7 +15,7 @@ void Parser::mount_output()
 
     for (uint i = 0; i < TokensTable::elements.size(); i++)
     {   
-        if (i == TokensTable::dataSection["end"])
+        if ((int)i == TokensTable::dataSection["end"])
         {
             outputStringVector.insert(outputStringVector.begin(), std::to_string(outputStringVector.size()));
         }
