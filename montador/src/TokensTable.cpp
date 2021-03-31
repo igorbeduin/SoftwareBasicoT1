@@ -31,11 +31,12 @@ void TokensTable::print_elements()
 
 void TokensTable::classify_tokens()
 {
+    std::cout << "L1: ";
     for (uint i = 0; i < elements.size(); i++)
     {   
         if (i > 0 && elementsLine[i] != elementsLine[i-1])
         {
-            std::cout << std::endl;
+            std::cout << std::endl << "L" << elementsLine[i] << ": ";
         }
         std::cout << elements[i] << " ";
         if (is_operation(elements[i]))
@@ -93,6 +94,7 @@ void TokensTable::classify_tokens()
                 }
         }
     }
+    std::cout << std::endl;
 }
 
 bool TokensTable::is_label_sep(std::string element)
@@ -221,7 +223,7 @@ bool TokensTable::lexical_error(int index)
     }
     if (found)
     {
-        std::cout << std::endl << std::endl << ">>>> ERRO LEXICO NA LINHA " << elementsLine[index] << " <<<<" << std::endl;
+        std::cout << std::endl << std::endl << ">>>> ERRO LEXICO NA L" << elementsLine[index] << " <<<<" << std::endl;
         std::cout << "Abortando o programa..." << std::endl << std::endl;
     }
     return found;

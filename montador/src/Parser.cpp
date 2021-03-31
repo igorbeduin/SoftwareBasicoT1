@@ -54,11 +54,45 @@ void Parser::verify_syntactic_errors()
                     || (TokensTable::elementsClass[i + 2] != StaticSymbols::argumentSeparatorClass)
                     || (TokensTable::elementsClass[i + 3] != StaticSymbols::symbolClass))
                     {
-                        std::cout << std::endl << std::endl << ">>>> ERRO SINTATICO NA LINHA " << TokensTable::elementsLine[i] << " <<<<" << std::endl;
+                        std::cout << std::endl << std::endl << ">>>> ERRO SINTATICO NA L" << TokensTable::elementsLine[i] << " <<<<" << std::endl;
                         std::cout << "Abortando o programa..." << std::endl << std::endl;
                         TokensTable::set_quit_request(true);
                         break;
                     }
+            }
+            else if ((TokensTable::elements[i] == "ADD") || (TokensTable::elements[i] == "SUB") ||
+                     (TokensTable::elements[i] == "MUL") || (TokensTable::elements[i] == "DIV") ||
+                     (TokensTable::elements[i] == "LOAD") || (TokensTable::elements[i] == "STORE") ||
+                     (TokensTable::elements[i] == "INPUT") || (TokensTable::elements[i] == "OUTPUT"))
+            {
+                if (TokensTable::elementsClass[i + 1] != StaticSymbols::symbolClass)
+                    {
+                        std::cout << std::endl << std::endl << ">>>> ERRO SINTATICO NA L" << TokensTable::elementsLine[i] << " <<<<" << std::endl;
+                        std::cout << "Abortando o programa..." << std::endl << std::endl;
+                        TokensTable::set_quit_request(true);
+                        break;
+                    }
+            }
+            else if ((TokensTable::elements[i] == "JMP") || (TokensTable::elements[i] == "JMPN") ||
+                     (TokensTable::elements[i] == "JMPP") || (TokensTable::elements[i] == "JMPZ"))
+            {
+                if (TokensTable::elementsClass[i + 1] != StaticSymbols::symbolClass)
+                {
+                    std::cout << std::endl << std::endl << ">>>> ERRO SINTATICO NA L" << TokensTable::elementsLine[i] << " <<<<" << std::endl;
+                    std::cout << "Abortando o programa..." << std::endl << std::endl;
+                    TokensTable::set_quit_request(true);
+                    break;
+                }
+            }
+            else if (TokensTable::elements[i] == "CONST")
+            {
+                if (TokensTable::elementsClass[i + 1] != StaticSymbols::argumentClass)
+                {
+                    std::cout << std::endl << std::endl << ">>>> ERRO SINTATICO NA L" << TokensTable::elementsLine[i] << " <<<<" << std::endl;
+                    std::cout << "Abortando o programa..." << std::endl << std::endl;
+                    TokensTable::set_quit_request(true);
+                    break; 
+                }
             }
         }
     }
