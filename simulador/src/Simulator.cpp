@@ -101,6 +101,7 @@ void Simulator::process_operation(std::string operation)
     }
     else if (operation == "INPUT")
     {
+        std::cout << "Escreva um valor de INPUT:" << std::endl;
         std::string aux;
         std::cin >> aux;
         memory[memory[pc + 1]] = std::stoi(aux);
