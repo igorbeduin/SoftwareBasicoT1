@@ -40,9 +40,9 @@ void Simulator::execute()
     int code;
     std::cout << "PC <- " << pc << std::endl;
     std::cout << "ACC <- " << acc << std::endl;
-    std::cout << "----------------" << std::endl;
     while (!quitRequest)
     {
+        std::cout << "-----------------------------" << std::endl;
         jump = false;
         code = memory[pc];
         std::string operation = CodeTable::codeTable[code];
@@ -113,7 +113,7 @@ void Simulator::process_operation(std::string operation)
     }
     else if (operation == "INPUT")
     {
-        std::cout << "Escreva um valor de INPUT:" << std::endl;
+        std::cout << "Escreva um valor de INPUT: ";
         std::string aux;
         std::cin >> aux;
         memory[memory[pc + 1]] = std::stoi(aux);
@@ -121,7 +121,7 @@ void Simulator::process_operation(std::string operation)
     else if (operation == "OUTPUT")
     {
         std::string out = std::to_string(memory[memory[pc + 1]]);
-        std::cout << out << std::endl;
+        std::cout << "Valor de OUTPUT: " << out << std::endl;
         print_on_output_file(out);
     }
     else if (operation == "STOP")
@@ -131,7 +131,6 @@ void Simulator::process_operation(std::string operation)
     pc += (jump ? 0 : DirectTable::directTable[operation]["WORDS"]);
     std::cout << "PC <- " << pc << std::endl;
     std::cout << "ACC <- " << acc << std::endl;
-    std::cout << "----------------" << std::endl;
 }
 
 bool Simulator::get_quit_request()
