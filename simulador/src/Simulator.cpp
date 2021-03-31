@@ -45,10 +45,50 @@ void Simulator::execute()
 
 void Simulator::process_operation(std::string op, int waitValues, int index)
 {
-    if (op == "INPUT")
+
+    if (op == "ADD")
+    {
+    }
+    else if (op == "SUB")
+    {
+    }
+    else if (op == "MUL")
+    {
+    }
+    else if (op == "DIV")
+    {
+    }
+    else if (op == "JMP")
+    {
+    }
+    else if (op == "JMPN")
+    {
+    }
+    else if (op == "JMPP")
+    {
+    }
+    else if (op == "JMPZ")
+    {
+    }
+    else if (op == "COPY")
+    {
+    }
+    else if (op == "LOAD")
+    {
+    }
+    else if (op == "STORE")
+    {
+    }
+    else if (op == "INPUT")
     {
         std::string aux;
         std::cin >> aux;
         memory[std::stoi(codeArray[index + 1])] = std::stoi(aux);
+    }
+    else if (op == "OUTPUT")
+    {
+    }
+    else if (op == "STOP")
+    {
     }
 }
