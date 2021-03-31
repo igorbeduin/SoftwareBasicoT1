@@ -14,16 +14,22 @@ Simulator::~Simulator()
 
 void Simulator::read_obj_file()
 {
-    int i = 0;
     objectFile.open(inputProgramPath);
+    std::string firstChar;
+    objectFile >> firstChar;
+    code_len = 0;
     while (!objectFile.eof())
-    {
+    {    
+        code_len++;
         std::string code;
         objectFile >> code;
-        memory[i] = std::stoi(code);
-        i++;
+        memory[code_len - 1] = std::stoi(code);
     }
     objectFile.close();
+    if (std::stoi(firstChar) != code_len)
+    {
+        pc = std::stoi(firstChar);
+    }
 }
 
 void Simulator::execute()

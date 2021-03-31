@@ -7,6 +7,7 @@
 class Simulator
 {
 private:
+    int code_len = 0;
     std::string inputProgramPath;
     std::ifstream objectFile;
     int memory[216];
