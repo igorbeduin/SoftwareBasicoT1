@@ -3,6 +3,8 @@ Repositório para versionamento do Trabalho 1 da disciplina Software Básico da 
 
 Este repositorio (https://github.com/igorbeduin/SoftwareBasicoT1) possui dois programas: "montador" e "simulador". Os dois são compilados via `Makefile`, cada um com seu respectivo arquivo em seu diretório.
 
+Todos os testes e compilações foram feitas em ambiente Linux (Ubuntu 20LTS).
+
 Aluno: Igor Raposo Oliveira Beduin
 
 ## Compilação
