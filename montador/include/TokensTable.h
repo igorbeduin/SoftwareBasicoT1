@@ -37,4 +37,5 @@ class TokensTable
         static void fill_symb_table();
         static bool lexical_error(int index);
         static bool get_quit_request();
+        static void set_quit_request(bool request);
 };

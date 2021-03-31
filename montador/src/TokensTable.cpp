@@ -231,3 +231,8 @@ bool TokensTable::get_quit_request()
 {
     return quitRequest;
 }
+
+void TokensTable::set_quit_request(bool request)
+{
+    quitRequest = request;
+}
