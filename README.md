@@ -11,7 +11,7 @@ Existe um script .sh para compilação dos dois programas: `compile_all.sh`. Exe
 
 Se não quiser usar o script, cada um dos programas pode ser compilado individualmente dando o comando `make` em seus respectivos diretórios.
 
-Compilador: g++
+Compilador: g++.
 Diretivas de compilação: `-std=c++11 -g -Wall -Wextra -Wno-unused-parameter`.
 
 ## Execução
@@ -29,7 +29,7 @@ O programa "simulador" recebe como argumento um código .obj. Caso o programa ch
 - Existe mensagens de comunicação com o usuário no caso das diretivas OUTPUT e INPUT, a fim de se facilitar o entendimento da execução;
 - o simulador possui uma memória fixa de 216 palavras;
 
-Como a posição de encerramento da seção de dados é indicada no início do código .obj, o "montador" e "simulador" não são sensíveis à posição das seções, isto é, devem funcionar tanto se a seção de dados vir no iníco ou ao fim. No entando, ainda as seções devem vir indicadas no código .asm.
+Como a posição de encerramento da seção de dados é indicada no início do código .obj, o "montador" e "simulador" não são sensíveis à posição das seções, isto é, devem funcionar tanto se a seção de dados vier no início ou no fim. No entando, ainda as seções devem vir indicadas no código .asm.
 
 ### Exemplo de uso do montador:
 
@@ -45,6 +45,6 @@ make clean # para remoção dos arquivos .o intermediários
 ```
 make
 make clean # para remoção dos arquivos .o intermediários
-./simulador fat.obj
+./simulador fat.obj # fat.obj criado na saída do montador
 # como este código possui chamadas de OUTPUT, um arquivo texto de saída fat.out é criado neste diretóiro com os valores de OUTPUT
 ```
