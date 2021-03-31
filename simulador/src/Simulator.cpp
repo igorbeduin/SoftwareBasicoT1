@@ -15,7 +15,10 @@ Simulator::~Simulator()
 void Simulator::read_obj_file()
 {
     objectFile.open(inputProgramPath);
-    std::string firstChar;
+    outputProgramPath = inputProgramPath.substr(0, inputProgramPath.find(extMark));
+    outputProgramPath = outputProgramPath + outputExt;
+
+                                                std::string firstChar;
     objectFile >> firstChar;
     code_len = 0;
     while (!objectFile.eof())
@@ -35,14 +38,17 @@ void Simulator::read_obj_file()
 void Simulator::execute()
 {
     int code;
+    std::cout << "PC <- " << pc << std::endl;
+    std::cout << "ACC <- " << acc << std::endl;
+    std::cout << "----------------" << std::endl;
     while (!quitRequest)
     {
         jump = false;
         code = memory[pc];
         std::string operation = CodeTable::codeTable[code];
         process_operation(operation);
-        pc += (jump ? 0 : DirectTable::directTable[operation]["WORDS"]);
     }
+    outputFile.close();
 }
 
 void Simulator::process_operation(std::string operation)
@@ -114,16 +120,30 @@ void Simulator::process_operation(std::string operation)
     }
     else if (operation == "OUTPUT")
     {
-        std::cout << (std::to_string(memory[memory[pc + 1]])) << std::endl;
-        // escreve no arquivo de saida
+        std::string out = std::to_string(memory[memory[pc + 1]]);
+        std::cout << out << std::endl;
+        print_on_output_file(out);
     }
     else if (operation == "STOP")
     {
         quitRequest = true;
     }
+    pc += (jump ? 0 : DirectTable::directTable[operation]["WORDS"]);
+    std::cout << "PC <- " << pc << std::endl;
+    std::cout << "ACC <- " << acc << std::endl;
+    std::cout << "----------------" << std::endl;
 }
 
 bool Simulator::get_quit_request()
 {
     return quitRequest;
+}
+
+void Simulator::print_on_output_file(std::string out)
+{
+    if (!outputFile.is_open())
+    {
+        outputFile.open(outputProgramPath);
+    }
+    outputFile << out << std::endl;
 }
