@@ -27,15 +27,17 @@ void Translator::read_file(bool showLines)
     {
         while (getline(inputFile, currLine))
         {
-            correctedLine = remove_comments(currLine);
-            correctedLine = remove_ending_space(correctedLine);
-            correctedLine = convert_to_uppercase(correctedLine);
-            correctedLine = remove_mult_spaces(correctedLine);
-            orgLines.push_back(correctedLine);
-            if (showLines)
-            {
-                std::cout << "original line: " << currLine << std::endl;
-                std::cout << "corrected line: " << correctedLine << std::endl;
+            if (currLine.length() != 0) {
+                correctedLine = remove_comments(currLine);
+                correctedLine = remove_ending_space(correctedLine);
+                correctedLine = convert_to_uppercase(correctedLine);
+                correctedLine = remove_mult_spaces(correctedLine);
+                orgLines.push_back(correctedLine);
+                if (showLines)
+                {
+                    std::cout << "original line: " << currLine << std::endl;
+                    std::cout << "corrected line: " << correctedLine << std::endl;
+                }
             }
         }
         inputFile.close();
