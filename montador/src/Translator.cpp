@@ -28,14 +28,15 @@ void Translator::read_file(bool showLines)
         while (getline(inputFile, currLine))
         {
             
-            correctedLine = remove_comments(currLine);
-            correctedLine = remove_ending_spaces(correctedLine);
+            correctedLine = convert_tabs_to_spaces(currLine);
+            correctedLine = remove_comments(correctedLine);
+            correctedLine = remove_starting_spaces(correctedLine);
             if (correctedLine.length() == 0)
             {
                 continue;
             }
             correctedLine = convert_to_uppercase(correctedLine);
-            correctedLine = remove_starting_spaces(correctedLine);
+            correctedLine = remove_ending_spaces(correctedLine);
             correctedLine = remove_mult_spaces(correctedLine);
             orgLines.push_back(correctedLine);
             if (showLines)
@@ -53,6 +54,19 @@ std::string Translator::remove_starting_spaces(std::string line)
     while (line[0] == ' ')
     {
         line.erase(0, 1);
+    }
+    return line;
+}
+
+std::string Translator::convert_tabs_to_spaces(std::string line)
+{
+    for (int i = 0; i < (int)line.length() - 1; i++)
+    {
+        if (line[i] == '\t')
+        {
+            line.erase(i, 1);
+            line.insert(i, "    ");
+        }
     }
     return line;
 }

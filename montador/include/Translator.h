@@ -37,4 +37,5 @@ class Translator
         std::string convert_to_uppercase(std::string line);
         std::string remove_ending_spaces(std::string line);
         std::string remove_starting_spaces(std::string line);
+        std::string convert_tabs_to_spaces(std::string line);
 };
