@@ -27,21 +27,34 @@ void Translator::read_file(bool showLines)
     {
         while (getline(inputFile, currLine))
         {
-            if (currLine.length() != 0) {
-                correctedLine = remove_comments(currLine);
-                correctedLine = remove_ending_space(correctedLine);
-                correctedLine = convert_to_uppercase(correctedLine);
-                correctedLine = remove_mult_spaces(correctedLine);
-                orgLines.push_back(correctedLine);
-                if (showLines)
-                {
-                    std::cout << "original line: " << currLine << std::endl;
-                    std::cout << "corrected line: " << correctedLine << std::endl;
-                }
+            
+            correctedLine = remove_comments(currLine);
+            correctedLine = remove_ending_spaces(correctedLine);
+            if (correctedLine.length() == 0)
+            {
+                continue;
+            }
+            correctedLine = convert_to_uppercase(correctedLine);
+            correctedLine = remove_starting_spaces(correctedLine);
+            correctedLine = remove_mult_spaces(correctedLine);
+            orgLines.push_back(correctedLine);
+            if (showLines)
+            {
+                std::cout << "original line: " << currLine << std::endl;
+                std::cout << "corrected line: " << correctedLine << std::endl;
             }
         }
         inputFile.close();
     }
+}
+
+std::string Translator::remove_starting_spaces(std::string line)
+{
+    while (line[0] == ' ')
+    {
+        line.erase(0, 1);
+    }
+    return line;
 }
 
 std::string Translator::remove_mult_spaces(std::string line)
@@ -130,7 +143,7 @@ void Translator::mount_elements_array()
     }
 }
 
-std::string Translator::remove_ending_space(std::string line)
+std::string Translator::remove_ending_spaces(std::string line)
 {
     while (line[line.size() - 1] == ' ')
     {

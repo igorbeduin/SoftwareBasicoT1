@@ -24,6 +24,11 @@ void Scanner::split_elements(std::string line, int nLine)
             TokensTable::insert_token(StaticSymbols::argumentSeparator, nLine, StaticSymbols::dummyClass);
             element.erase(0, 1);
         }
+        if (element[0] == (StaticSymbols::labelSeparator)[0])
+        {
+            TokensTable::insert_token(StaticSymbols::labelSeparator, nLine, StaticSymbols::dummyClass);
+            element.erase(0, 1);
+        }
         TokensTable::insert_token(element, nLine, StaticSymbols::dummyClass);
         
     }
