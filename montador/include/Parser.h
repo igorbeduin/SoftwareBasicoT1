@@ -6,6 +6,7 @@ class Parser
 {
     private:
     public:
+        static std::vector<int> relativeIdxData;
         static std::vector<std::string> outputStringVector;
         void set_elements();
         void set_elements_lines();

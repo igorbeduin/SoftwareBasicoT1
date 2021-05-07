@@ -3,6 +3,7 @@
 #include "../include/StaticSymbols.h"
 
 std::vector<std::string> Parser::outputStringVector;
+std::vector<int> Parser::relativeIdxData;
 
 void Parser::set_elements()
 {}
@@ -12,14 +13,8 @@ void Parser::set_elements_classes()
 {}
 void Parser::mount_output()
 {
-
-    for (uint i = 0; i < TokensTable::elements.size(); i++)
+    for (int i = TokensTable::textSection["begin"]; i < TokensTable::textSection["end"] + 1; i++)
     {   
-        if ((int)i == TokensTable::dataSection["end"])
-        {
-            outputStringVector.insert(outputStringVector.begin(), std::to_string(outputStringVector.size()));
-        }
-
         int memNumber = std::numeric_limits<int>::min();
         if (TokensTable::elementsClass[i] == StaticSymbols::operationClass)
         {
@@ -44,12 +39,68 @@ void Parser::mount_output()
         } else if (TokensTable::elementsClass[i] == StaticSymbols::symbolClass)
         {   
             memNumber = TokensTable::symbTable.get_value(TokensTable::elements[i]);
+            relativeIdxData.push_back(outputStringVector.size());
         }
         if (memNumber != std::numeric_limits<int>::min())
         {
             std::string out = std::to_string(memNumber);
             outputStringVector.push_back(out);
         }
+    }
+
+    int data_section_offset = outputStringVector.size();
+
+    for (int i = TokensTable::dataSection["begin"]; i < TokensTable::dataSection["end"] + 1; i++)
+    {
+        int memNumber = std::numeric_limits<int>::min();
+        if (TokensTable::elementsClass[i] == StaticSymbols::operationClass)
+        {
+            if (TokensTable::elements[i] == "CONST")
+            {
+                if (TokensTable::elementsClass[i + 1] == StaticSymbols::argumentClass)
+                {
+                    if (TokensTable::elements[i + 1][0] == '-')
+                    {
+                        std::string number = TokensTable::elements[i + 1].substr(1);
+                        memNumber = (-1) * std::stoi(number);
+                    }
+                    else
+                    {
+                        memNumber = std::stoi(TokensTable::elements[i + 1]);
+                    }
+                }
+            }
+            else
+            {
+                memNumber = DirectTable::directTable[TokensTable::elements[i]]["OP_CODE"];
+            }
+        }
+        else if (TokensTable::elementsClass[i] == StaticSymbols::symbolClass)
+        {
+            memNumber = TokensTable::symbTable.get_value(TokensTable::elements[i]);
+        }
+        if (memNumber != std::numeric_limits<int>::min())
+        {
+            std::string out = std::to_string(memNumber);
+            outputStringVector.push_back(out);
+        }
+    }
+
+    int label_offset = outputStringVector.size() - data_section_offset;
+
+    for (uint i = 0; i < relativeIdxData.size(); i++)
+    {
+        int new_value = 0;
+        int output_idx = relativeIdxData[i];
+        int value = std::stoi(outputStringVector[output_idx]);
+        if (value < label_offset)
+        {
+            new_value = value + data_section_offset;
+        } else
+        {
+            new_value =  value - label_offset;
+        }
+        outputStringVector[output_idx] = std::to_string(new_value);
     }
 }
 
