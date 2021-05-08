@@ -20,3 +20,9 @@ int SymbTable::get_value(std::string symbol)
 {
     return table[symbol];
 }
+
+void SymbTable::reset_class()
+{
+    table.clear();
+    externTable.clear();
+}

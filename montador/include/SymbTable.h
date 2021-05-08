@@ -12,4 +12,5 @@ class SymbTable{
         bool exist(std::string symbol);
         void insert_value(std::string symbol, int value);
         int get_value(std::string symbol);
+        void reset_class();
 };

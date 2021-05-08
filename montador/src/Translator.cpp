@@ -207,3 +207,9 @@ void Translator::set_is_module(bool _isModule)
 {
     isModule = _isModule;
 }
+
+void Translator::reset_processing()
+{
+    orgLines.clear();
+    TokensTable::reset_class();
+}

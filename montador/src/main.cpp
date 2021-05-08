@@ -28,11 +28,14 @@ int main(int argc, char **argv)
         }
         if (!ControlVariables::quitRequest)
         {
+            translator.reset_processing();
+        }
+        if (!ControlVariables::quitRequest)
+        {
             translator.write_output(programName);
             std::cout << std::endl << "SUCCESS!" << std::endl;
         }
-
-        return 0;
     }
 
+    return 0;
 }

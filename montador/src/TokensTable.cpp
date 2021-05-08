@@ -273,13 +273,14 @@ void TokensTable::raise_syntactic_error(int index)
         ControlVariables::set_quitRequest(true);
 }
 
-void TokensTable::resetClass()
+void TokensTable::reset_class()
 {
     elements.clear();
     elementsLine.clear();
     elementsClass.clear();
     dataSection.clear();
     textSection.clear();
+    symbTable.reset_class();
 }
 
 bool TokensTable::found_modTags(bool isModule)
