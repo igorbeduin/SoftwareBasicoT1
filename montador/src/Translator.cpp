@@ -29,6 +29,7 @@ void Translator::read_file(bool showLines)
         {
             
             correctedLine = convert_tabs_to_spaces(currLine);
+            correctedLine = remove_return_and_linefeed(correctedLine);
             correctedLine = remove_comments(correctedLine);
             correctedLine = remove_starting_spaces(correctedLine);
             if (correctedLine.length() == 0)
@@ -83,6 +84,24 @@ std::string Translator::convert_tabs_to_spaces(std::string line)
             line.erase(i, 1);
             line.insert(i, "    ");
         }
+    }
+    return line;
+}
+
+std::string Translator::remove_return_and_linefeed(std::string line)
+{
+    std::string::iterator it = std::find(line.begin(), line.end(), '\r');
+    while(it != line.end())
+    {
+        line.erase(it, it + 1);
+        it = std::find(line.begin(), line.end(), '\r');
+    }
+    
+    it = std::find(line.begin(), line.end(), '\n');
+    while (it != line.end())
+    {
+        line.erase(it, it + 1);
+        it = std::find(line.begin(), line.end(), '\n');
     }
     return line;
 }

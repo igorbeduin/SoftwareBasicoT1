@@ -42,6 +42,7 @@ class Translator
         std::string remove_ending_spaces(std::string line);
         std::string remove_starting_spaces(std::string line);
         std::string convert_tabs_to_spaces(std::string line);
+        std::string remove_return_and_linefeed(std::string line);
         void set_is_module(bool _isModule);
-        
-};
+
+        };
