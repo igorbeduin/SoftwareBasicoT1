@@ -78,7 +78,10 @@ void TokensTable::classify_tokens()
         {
             if (elementsClass[i - 1] == StaticSymbols::operationClass && elements[i - 1] != "SPACE")
             {
-                elementsClass[i] = StaticSymbols::symbolCandidateClass;
+                if (elementsClass[i] != StaticSymbols::ignoreClass)
+                {
+                    elementsClass[i] = StaticSymbols::symbolCandidateClass;
+                }
                 if (lexical_error(i))
                 {
                     ControlVariables::set_quitRequest(true);
@@ -297,7 +300,7 @@ bool TokensTable::found_modTags(bool isModule)
         std::cout << "ERROR: 'END' found!" << std::endl;
     }
     elementsClass[2] = StaticSymbols::ignoreClass;
-    *(elementsClass.end() - 2) = StaticSymbols::ignoreClass;
+    *(elementsClass.end() - 1) = StaticSymbols::ignoreClass;
     return true;
 }
 
