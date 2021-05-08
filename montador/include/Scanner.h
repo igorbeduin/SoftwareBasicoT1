@@ -14,6 +14,6 @@ class Scanner
     public:
         void split_elements(std::string line, int nLine);
         void reset_indexes();
-        void classify_elements();
+        void classify_elements(bool isModule);
         void print_elements();
 };

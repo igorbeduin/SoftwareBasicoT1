@@ -42,4 +42,6 @@ class TokensTable
         static void raise_syntactic_error(int index);
         static void find_first_pass_errors();
         static void resetClass();
+        static bool found_modTags(bool isModule);
+        static void remove_label_spaces();
 };

@@ -1,5 +1,5 @@
 seCTion data
-one:        const   1
+one:const   1
 minus_one:
                     const   -1
 count:  const 5    ; numbers to

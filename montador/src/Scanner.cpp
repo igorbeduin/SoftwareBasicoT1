@@ -56,17 +56,31 @@ void Scanner::reset_indexes()
     indexes.push_back(0);
 }
 
-void Scanner::classify_elements()
+void Scanner::classify_elements(bool isModule)
 {
-    TokensTable::search_for_sections();
-    TokensTable::classify_tokens();
-    if (!ControlVariables::quitRequest)
+    TokensTable::remove_label_spaces();
+    if (isModule)
     {
-        TokensTable::find_first_pass_errors();
+        ControlVariables::set_quitRequest(!TokensTable::found_modTags(isModule));
+    } else
+    {
+        ControlVariables::set_quitRequest(TokensTable::found_modTags(isModule));
     }
     if (!ControlVariables::quitRequest)
     {
-        TokensTable::fill_symb_table();
+        TokensTable::search_for_sections();
+        if (!ControlVariables::quitRequest)
+        {
+            TokensTable::classify_tokens();
+            if (!ControlVariables::quitRequest)
+            {
+                TokensTable::find_first_pass_errors();
+                if (!ControlVariables::quitRequest)
+                {
+                    TokensTable::fill_symb_table();
+                }
+            }
+        }
     }
 }
 

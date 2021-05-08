@@ -74,13 +74,16 @@ void TokensTable::classify_tokens()
         {
             elementsClass[i] = StaticSymbols::ignoreClass;
             elementsClass[i + 1] = StaticSymbols::ignoreClass;
-        } else if (elementsClass[i - 1] == StaticSymbols::operationClass && elements[i - 1] != "SPACE")
+        } else if (i != 0)
         {
-            elementsClass[i] = StaticSymbols::symbolCandidateClass;
-            if (lexical_error(i))
+            if (elementsClass[i - 1] == StaticSymbols::operationClass && elements[i - 1] != "SPACE")
             {
-                ControlVariables::set_quitRequest(true);
-                break;
+                elementsClass[i] = StaticSymbols::symbolCandidateClass;
+                if (lexical_error(i))
+                {
+                    ControlVariables::set_quitRequest(true);
+                    break;
+                }
             }
         }
     }
@@ -274,4 +277,42 @@ void TokensTable::resetClass()
     elementsClass.clear();
     dataSection.clear();
     textSection.clear();
+}
+
+bool TokensTable::found_modTags(bool isModule)
+{
+    // TODO: ver se o begin precisa mesmo de label + : antes
+    if (elements[2] != StaticSymbols::beginMark)
+    {
+        std::cout << "ERROR: no 'BEGIN' found!" << std::endl;
+        return false;
+    } else if (!isModule) {
+        std::cout << "ERROR: 'BEGIN' found!" << std::endl;
+    }
+    if (*(elements.end() - 1) != StaticSymbols::endMark)
+    {
+        std::cout << "ERROR: no 'END' found!" << std::endl;
+        return false;
+    } else if (!isModule) {
+        std::cout << "ERROR: 'END' found!" << std::endl;
+    }
+    elementsClass[2] = StaticSymbols::ignoreClass;
+    *(elementsClass.end() - 2) = StaticSymbols::ignoreClass;
+    return true;
+}
+
+void TokensTable::remove_label_spaces()
+{
+    for (uint i = 0; i < elements.size(); i++)
+    {
+        if (elements[i] == StaticSymbols::dummyClass)
+        {
+            if (elements[i - 1] == StaticSymbols::labelSeparator)
+            {
+                elements.erase(elements.begin() + i, elements.begin() + i + 1);
+                elementsLine.erase(elementsLine.begin() + i, elementsLine.begin() + i + 1);
+                elementsClass.erase(elementsClass.begin() + i, elementsClass.begin() + i + 1);
+            }
+        }
+    }
 }

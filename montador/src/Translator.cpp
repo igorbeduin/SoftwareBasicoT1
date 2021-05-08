@@ -171,7 +171,7 @@ std::string Translator::remove_ending_spaces(std::string line)
 
 void Translator::classify_elements()
 {
-    scanner.classify_elements();
+    scanner.classify_elements(isModule);
 }
 
 void Translator::verify_syntactic_errors()

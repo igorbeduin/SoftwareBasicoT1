@@ -9,7 +9,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/montador/montador",
-            "args": ["montador/fivefibonacci.asm", "bladfa", "adsfafasdfa"],
+            "args": ["montador/fivefibonacci.asm"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
