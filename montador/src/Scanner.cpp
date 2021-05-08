@@ -77,7 +77,7 @@ void Scanner::classify_elements(bool isModule)
                 TokensTable::find_first_pass_errors();
                 if (!ControlVariables::quitRequest)
                 {
-                    TokensTable::fill_symb_table();
+                    TokensTable::fill_tables();
                 }
             }
         }

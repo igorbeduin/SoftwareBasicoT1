@@ -212,4 +212,5 @@ void Translator::reset_processing()
 {
     orgLines.clear();
     TokensTable::reset_class();
+    parser.reset_class();
 }

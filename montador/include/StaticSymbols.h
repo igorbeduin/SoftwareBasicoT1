@@ -26,4 +26,6 @@ class StaticSymbols
 
         static std::string beginMark;
         static std::string endMark;
+        static std::string publicMark;
+        static std::string externMark;
 };

@@ -1,14 +1,19 @@
 #include "../include/TokensTable.h"
 #include "../include/StaticSymbols.h"
-#include "../include/ControlVariables.h"
 
 std::vector<std::string> TokensTable::elements;
 std::vector<int> TokensTable::elementsLine;
 std::vector<std::string> TokensTable::elementsClass;
+
 std::map<std::string, int> TokensTable::dataSection;
 std::map<std::string, int> TokensTable::textSection;
+
 SymbTable TokensTable::symbTable;
+DefTable TokensTable::defTable;
+UsageTable TokensTable::usageTable;
+
 int TokensTable::max_length = 50;
+
 std::vector<char> TokensTable::numbers = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 std::vector<char> TokensTable::letters = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
                              'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U',
@@ -39,6 +44,8 @@ void TokensTable::classify_tokens()
             std::cout << std::endl << "L" << elementsLine[i] << ": ";
         }
         std::cout << elements[i] << " ";
+        
+        // INICIA LOOP
         if (is_operation(elements[i]))
         {
             elementsClass[i] = StaticSymbols::operationClass;
@@ -161,11 +168,16 @@ void TokensTable::search_for_sections()
     {
         textSection["end"] = (stopFound - elements.begin());
     }
+    else if (*(elements.end() - 1) == StaticSymbols::endMark && *(elementsClass.end() - 1) == StaticSymbols::ignoreClass)
+    {
+        textSection["end"] = ((elements.end() - 1) - elements.begin());
+    }
 
     if (textSection["begin"] > dataSection["begin"])
     {
         dataSection["end"] = textSection["begin"] - 1;
-    } else
+    }
+    else
     {
         dataSection["end"] = elements.size() - 1;
     }
@@ -190,7 +202,7 @@ bool TokensTable::is_in_text_section(int index)
     return (index >= textSection["begin"] && index <= textSection["end"]);
 }
 
-void TokensTable::fill_symb_table()
+void TokensTable::fill_tables()
 {
     int lineCounter = 0;
     for (uint i = 0; i < elements.size(); i++)
@@ -203,7 +215,29 @@ void TokensTable::fill_symb_table()
             }
             if (elementsClass[i] == StaticSymbols::operationClass)
             {
-                lineCounter += DirectTable::directTable[elements[i]]["WORDS"];
+                if (elements[i] != StaticSymbols::externMark)
+                {
+                    if (elements[i] != StaticSymbols::publicMark)
+                    {
+                        lineCounter += DirectTable::directTable[elements[i]]["WORDS"];
+                    }
+                }
+                else
+                {
+                    symbTable.set_as_extern(elements[i - 2], true);
+                }
+            } 
+        }
+    }
+    //ACHA PUBLICS
+    for (uint i = 0; i < elements.size(); i++)
+    {
+        if (elementsClass[i] == StaticSymbols::operationClass && elements[i] == StaticSymbols::publicMark)
+        {
+            if (elementsClass[i+1] == StaticSymbols::symbolClass)
+            {
+                std::string symbol = elements[i + 1];
+                defTable.insert_value(symbol, symbTable.get_value(symbol));
             }
         }
     }
@@ -281,6 +315,8 @@ void TokensTable::reset_class()
     dataSection.clear();
     textSection.clear();
     symbTable.reset_class();
+    defTable.reset_class();
+    usageTable.reset_class();
 }
 
 bool TokensTable::found_modTags(bool isModule)

@@ -1,17 +1,18 @@
 #include <string>
 
-#include "../include/DefTable.h"
-#include "../include/ObjectCode.h"
-#include "../include/UseTable.h"
+#include "SymbTable.h"
+#include "DefTable.h"
+#include "ObjectCode.h"
+#include "UsageTable.h"
 
 class FileToMount
 {
     private:
         std::string moduleName;
-        //SymbTable symbTable;
+        SymbTable symbTable;
         DefTable defTable;
         ObjectCode objCode;
-        UseTable useTable;
+        UsageTable usageTable;
         int correctionFactor;
     public:
         std::string assemblyExt = ".asm";

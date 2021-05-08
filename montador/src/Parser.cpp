@@ -38,8 +38,15 @@ void Parser::mount_output()
             }
         } else if (TokensTable::elementsClass[i] == StaticSymbols::symbolClass)
         {   
-            memNumber = TokensTable::symbTable.get_value(TokensTable::elements[i]);
-            relativeIdxData.push_back(outputStringVector.size());
+            if (!TokensTable::symbTable.get_is_extern(TokensTable::elements[i]))
+            {
+                memNumber = TokensTable::symbTable.get_value(TokensTable::elements[i]);
+                relativeIdxData.push_back(outputStringVector.size());
+            } else
+            {
+                memNumber = 0;
+                TokensTable::usageTable.insert_usage(outputStringVector.size(), TokensTable::elements[i]);
+            }
         }
         if (memNumber != std::numeric_limits<int>::min())
         {
@@ -162,4 +169,10 @@ void Parser::verify_syntactic_errors()
             }
         }
     }
+}
+
+void Parser::reset_class()
+{
+    relativeIdxData.clear();
+    outputStringVector.clear();
 }

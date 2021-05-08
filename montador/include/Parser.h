@@ -13,4 +13,5 @@ class Parser
         void set_elements_classes();
         void verify_syntactic_errors();
         void mount_output();
+        void reset_class();
 };      

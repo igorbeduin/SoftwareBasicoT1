@@ -6,6 +6,8 @@
 
 #include "DirectTable.h"
 #include "SymbTable.h"
+#include "DefTable.h"
+#include "UsageTable.h"
 #include "ControlVariables.h"
 
 class TokensTable
@@ -23,6 +25,8 @@ class TokensTable
         static std::map<std::string, int> textSection;
 
         static SymbTable symbTable;
+        static DefTable defTable;
+        static UsageTable usageTable;
 
         static void insert_token(std::string element, int elementLine, std::string elementClass);
         static void print_elements();
@@ -36,7 +40,7 @@ class TokensTable
         static bool is_section_mark(std::string element);
         static bool is_in_text_section(int index);
         static void search_for_sections();
-        static void fill_symb_table();
+        static void fill_tables();
         static bool lexical_error(int index);
         static void raise_semantic_error(int index);
         static void raise_syntactic_error(int index);
