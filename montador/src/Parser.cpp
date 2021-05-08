@@ -119,7 +119,7 @@ void Parser::verify_syntactic_errors()
                     {
                         std::cout << std::endl << std::endl << ">>>> ERRO SINTATICO NA L" << TokensTable::elementsLine[i] << " <<<<" << std::endl;
                         std::cout << "Abortando o programa..." << std::endl << std::endl;
-                        TokensTable::set_quit_request(true);
+                        ControlVariables::set_quitRequest(true);
                         break;
                     }
             }
@@ -133,7 +133,7 @@ void Parser::verify_syntactic_errors()
                     {
                         std::cout << std::endl << std::endl << ">>>> ERRO SINTATICO NA L" << TokensTable::elementsLine[i] << " <<<<" << std::endl;
                         std::cout << "Abortando o programa..." << std::endl << std::endl;
-                        TokensTable::set_quit_request(true);
+                        ControlVariables::set_quitRequest(true);
                         break;
                     }
             }
@@ -145,7 +145,7 @@ void Parser::verify_syntactic_errors()
                 {
                     std::cout << std::endl << std::endl << ">>>> ERRO SINTATICO NA L" << TokensTable::elementsLine[i] << " <<<<" << std::endl;
                     std::cout << "Abortando o programa..." << std::endl << std::endl;
-                    TokensTable::set_quit_request(true);
+                    ControlVariables::set_quitRequest(true);
                     break;
                 }
             }
@@ -156,7 +156,7 @@ void Parser::verify_syntactic_errors()
                 {
                     std::cout << std::endl << std::endl << ">>>> ERRO SINTATICO NA L" << TokensTable::elementsLine[i] << " <<<<" << std::endl;
                     std::cout << "Abortando o programa..." << std::endl << std::endl;
-                    TokensTable::set_quit_request(true);
+                    ControlVariables::set_quitRequest(true);
                     break; 
                 }
             }

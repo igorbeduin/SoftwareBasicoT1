@@ -3,27 +3,35 @@
 #include <string>
 
 #include "../include/Translator.h"
+#include "../include/FileToMount.h"
+#include "../include/ControlVariables.h"
 
 int main(int argc, char **argv)
 {
-    // Passing "test.asm" as argument
-    std::string programName = argv[argc - 1];
-    std::string line;
-    std::string outputFile;
+    FileToMount modules[3];
+    int number_of_modules = argc - 1;
 
-    Translator translator(programName);
+    for (int i = 0; i < number_of_modules; i++)
+    {   
+        std::string programName = argv[i+1];
+        Translator translator(programName);
+        translator.read_file(false);
+        translator.set_is_module((bool)i);
+        if (!ControlVariables::quitRequest)
+        {
+            translator.first_pass();
+        }
+        if (!ControlVariables::quitRequest)
+        {
+            translator.second_pass();
+        }
+        if (!ControlVariables::quitRequest)
+        {
+            translator.write_output(programName);
+            std::cout << std::endl << "SUCCESS!" << std::endl;
+        }
 
-    translator.read_file(false);
-    translator.first_pass();
-    if (!TokensTable::get_quit_request())
-    {
-        translator.second_pass();
+        return 0;
     }
-    if (!TokensTable::get_quit_request())
-    {
-        translator.write_output(programName);
-        std::cout << std::endl << "SUCCESS!" << std::endl;
-    }
 
-    return 0;
 }

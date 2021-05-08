@@ -1,10 +1,12 @@
 #include <map>
 #include <string>
 #include <limits>
+#include <vector>
 
 class SymbTable{
     private:
         std::map<std::string, int> table;
+        std::vector<int> externTable;
     public:
         void insert_symbol(std::string symbol);
         bool exist(std::string symbol);

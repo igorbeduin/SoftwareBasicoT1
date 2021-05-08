@@ -1,5 +1,6 @@
 #include "../include/TokensTable.h"
 #include "../include/StaticSymbols.h"
+#include "../include/ControlVariables.h"
 
 std::vector<std::string> TokensTable::elements;
 std::vector<int> TokensTable::elementsLine;
@@ -8,7 +9,6 @@ std::map<std::string, int> TokensTable::dataSection;
 std::map<std::string, int> TokensTable::textSection;
 SymbTable TokensTable::symbTable;
 int TokensTable::max_length = 50;
-bool TokensTable::quitRequest = false;
 std::vector<char> TokensTable::numbers = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 std::vector<char> TokensTable::letters = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
                              'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U',
@@ -49,7 +49,7 @@ void TokensTable::classify_tokens()
                 elementsClass[i-1] = StaticSymbols::labelClass;
                 if (lexical_error(i - 1))
                 {
-                    quitRequest = true;
+                    ControlVariables::set_quitRequest(true);
                     break;
                 }
             }
@@ -79,7 +79,7 @@ void TokensTable::classify_tokens()
             elementsClass[i] = StaticSymbols::symbolCandidateClass;
             if (lexical_error(i))
             {
-                set_quit_request(true);
+                ControlVariables::set_quitRequest(true);
                 break;
             }
         }
@@ -253,26 +253,25 @@ bool TokensTable::lexical_error(int index)
     return found;
 }
 
-bool TokensTable::get_quit_request()
-{
-    return quitRequest;
-}
-
-void TokensTable::set_quit_request(bool request)
-{
-    quitRequest = request;
-}
-
 void TokensTable::raise_semantic_error(int index)
 {
         std::cout << std::endl << std::endl << ">>>> ERRO SEMANTICO NA L" << elementsLine[index] << " <<<<" << std::endl;
         std::cout << "Abortando o programa..." << std::endl << std::endl;
-        set_quit_request(true);
+        ControlVariables::set_quitRequest(true);
 }
 
 void TokensTable::raise_syntactic_error(int index)
 {
         std::cout << std::endl << std::endl << ">>>> ERRO SINTATICO NA L" << elementsLine[index] << " <<<<" << std::endl;
         std::cout << "Abortando o programa..." << std::endl << std::endl;
-        set_quit_request(true);
+        ControlVariables::set_quitRequest(true);
+}
+
+void TokensTable::resetClass()
+{
+    elements.clear();
+    elementsLine.clear();
+    elementsClass.clear();
+    dataSection.clear();
+    textSection.clear();
 }

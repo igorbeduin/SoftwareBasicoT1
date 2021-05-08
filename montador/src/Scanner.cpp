@@ -60,11 +60,11 @@ void Scanner::classify_elements()
 {
     TokensTable::search_for_sections();
     TokensTable::classify_tokens();
-    if (!TokensTable::get_quit_request())
+    if (!ControlVariables::quitRequest)
     {
         TokensTable::find_first_pass_errors();
     }
-    if (!TokensTable::get_quit_request())
+    if (!ControlVariables::quitRequest)
     {
         TokensTable::fill_symb_table();
     }

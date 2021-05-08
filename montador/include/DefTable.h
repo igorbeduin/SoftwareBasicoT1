@@ -1,0 +1,5 @@
+class DefTable 
+{
+    private:
+    public:
+};

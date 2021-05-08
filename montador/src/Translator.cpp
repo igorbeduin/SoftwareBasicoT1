@@ -46,7 +46,23 @@ void Translator::read_file(bool showLines)
             }
         }
         inputFile.close();
+    } else
+    {
+        std::cout << "ERROR: Unable to read file " << programName << std::endl;
+        ControlVariables::set_quitRequest(true);
     }
+}
+
+void Translator::first_pass() 
+{
+    mount_elements_array();
+    // scanner.print_elements();
+    classify_elements();
+}
+void Translator::second_pass() 
+{
+    verify_syntactic_errors();
+    mount_output();
 }
 
 std::string Translator::remove_starting_spaces(std::string line)
@@ -109,22 +125,9 @@ void Translator::read_file(std::string fileName, bool showLines)
     read_file(showLines=showLines);
 }
 
-
 int Translator::get_n_linesRead()
 {
     return orgLines.size();
-}
-
-void Translator::first_pass() 
-{
-    mount_elements_array();
-    // scanner.print_elements();
-    scanner.classify_elements();
-}
-void Translator::second_pass() 
-{
-    parser.verify_syntactic_errors();
-    parser.mount_output();
 }
 
 void Translator::write_output(std::string programName) 
@@ -164,4 +167,24 @@ std::string Translator::remove_ending_spaces(std::string line)
         line.erase(line.size() - 1, 1);
     }
     return line;
+}
+
+void Translator::classify_elements()
+{
+    scanner.classify_elements();
+}
+
+void Translator::verify_syntactic_errors()
+{
+    parser.verify_syntactic_errors();
+}
+
+void Translator::mount_output()
+{
+    parser.mount_output();
+}
+
+void Translator::set_is_module(bool _isModule)
+{
+    isModule = _isModule;
 }
