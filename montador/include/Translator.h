@@ -6,6 +6,7 @@
 
 #include "Scanner.h"
 #include "Parser.h"
+#include "FileToMount.h"
 
 class Translator 
 {
@@ -45,5 +46,5 @@ class Translator
         std::string remove_return_and_linefeed(std::string line);
         void set_is_module(bool _isModule);
         void reset_processing();
-
+        FileToMount get_FileToMount();
         };

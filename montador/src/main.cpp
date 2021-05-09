@@ -28,6 +28,10 @@ int main(int argc, char **argv)
         }
         if (!ControlVariables::quitRequest)
         {
+            modules[i] = translator.get_FileToMount();
+        }
+        if (!ControlVariables::quitRequest)
+        {
             translator.reset_processing();
         }
         if (!ControlVariables::quitRequest)

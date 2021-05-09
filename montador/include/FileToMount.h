@@ -1,3 +1,5 @@
+#pragma once
+
 #include <string>
 
 #include "SymbTable.h"
@@ -15,8 +17,12 @@ class FileToMount
         UsageTable usageTable;
         int correctionFactor;
     public:
+        std::string moduleExt = ".obj";
         std::string assemblyExt = ".asm";
         FileToMount();
         FileToMount(std::string programName);
         void parseModuleName(std::string programName);
+        void set_tables(SymbTable _symbTable, DefTable _defTable, 
+                        ObjectCode _objCode, UsageTable _usageTable);
+        void set_programName(std::string _programName);
 };

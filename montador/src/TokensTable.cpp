@@ -322,22 +322,36 @@ void TokensTable::reset_class()
 bool TokensTable::found_modTags(bool isModule)
 {
     // TODO: ver se o begin precisa mesmo de label + : antes
-    if (elements[2] != StaticSymbols::beginMark)
+    if (isModule)
     {
-        std::cout << "ERROR: no 'BEGIN' found!" << std::endl;
-        return false;
-    } else if (!isModule) {
+        if (elements[2] != StaticSymbols::beginMark)
+        {
+            std::cout << "ERROR: no 'BEGIN' found!" << std::endl;
+            return false;
+        } 
+        if (*(elements.end() - 1) != StaticSymbols::endMark)
+        {
+            std::cout << "ERROR: no 'END' found!" << std::endl;
+            return false;
+        }
+        elementsClass[2] = StaticSymbols::ignoreClass;
+        *(elementsClass.end() - 1) = StaticSymbols::ignoreClass;
+        return true;
+    }
+    else if (elements[2] == StaticSymbols::beginMark)
+    {
         std::cout << "ERROR: 'BEGIN' found!" << std::endl;
-    }
-    if (*(elements.end() - 1) != StaticSymbols::endMark)
+    } else 
     {
-        std::cout << "ERROR: no 'END' found!" << std::endl;
         return false;
-    } else if (!isModule) {
-        std::cout << "ERROR: 'END' found!" << std::endl;
     }
-    elementsClass[2] = StaticSymbols::ignoreClass;
-    *(elementsClass.end() - 1) = StaticSymbols::ignoreClass;
+    if (*(elements.end() - 1) == StaticSymbols::endMark)
+    {
+        std::cout << "ERROR: 'END' found!" << std::endl;
+    } else 
+    {
+        return false;
+    }
     return true;
 }
 
@@ -355,4 +369,19 @@ void TokensTable::remove_label_spaces()
             }
         }
     }
+}
+
+SymbTable TokensTable::get_symbTable()
+{
+    return symbTable;
+}
+
+DefTable TokensTable::get_defTable()
+{
+    return defTable;
+}
+
+UsageTable TokensTable::get_usageTable()
+{
+    return usageTable;
 }

@@ -2,6 +2,7 @@
 #include "../include/TokensTable.h"
 #include "../include/StaticSymbols.h"
 
+std::vector<bool> Parser::relAdresses;
 std::vector<std::string> Parser::outputStringVector;
 std::vector<int> Parser::relativeIdxData;
 
@@ -16,6 +17,8 @@ void Parser::mount_output()
     for (int i = TokensTable::textSection["begin"]; i < TokensTable::textSection["end"] + 1; i++)
     {   
         int memNumber = std::numeric_limits<int>::min();
+        bool is_relative = false;
+
         if (TokensTable::elementsClass[i] == StaticSymbols::operationClass)
         {
             if (TokensTable::elements[i] == "CONST") 
@@ -36,22 +39,28 @@ void Parser::mount_output()
             {
                 memNumber = DirectTable::directTable[TokensTable::elements[i]]["OP_CODE"];
             }
-        } else if (TokensTable::elementsClass[i] == StaticSymbols::symbolClass)
-        {   
-            if (!TokensTable::symbTable.get_is_extern(TokensTable::elements[i]))
-            {
-                memNumber = TokensTable::symbTable.get_value(TokensTable::elements[i]);
-                relativeIdxData.push_back(outputStringVector.size());
-            } else
-            {
-                memNumber = 0;
-                TokensTable::usageTable.insert_usage(outputStringVector.size(), TokensTable::elements[i]);
+        } else 
+        {
+            if (TokensTable::elementsClass[i] == StaticSymbols::symbolClass)
+            {   
+                if (!TokensTable::symbTable.get_is_extern(TokensTable::elements[i]))
+                {
+                    memNumber = TokensTable::symbTable.get_value(TokensTable::elements[i]);
+                    relativeIdxData.push_back(outputStringVector.size());
+                } else
+                {
+                    memNumber = 0;
+                    TokensTable::usageTable.insert_usage(outputStringVector.size(), TokensTable::elements[i]);
+                }
             }
+            is_relative = true;
         }
+
         if (memNumber != std::numeric_limits<int>::min())
         {
             std::string out = std::to_string(memNumber);
             outputStringVector.push_back(out);
+            relAdresses.push_back(is_relative);
         }
     }
 
@@ -60,6 +69,8 @@ void Parser::mount_output()
     for (int i = TokensTable::dataSection["begin"]; i < TokensTable::dataSection["end"] + 1; i++)
     {
         int memNumber = std::numeric_limits<int>::min();
+        bool is_relative = false;
+
         if (TokensTable::elementsClass[i] == StaticSymbols::operationClass)
         {
             if (TokensTable::elements[i] == "CONST")
@@ -82,14 +93,19 @@ void Parser::mount_output()
                 memNumber = DirectTable::directTable[TokensTable::elements[i]]["OP_CODE"];
             }
         }
-        else if (TokensTable::elementsClass[i] == StaticSymbols::symbolClass)
+        else 
         {
-            memNumber = TokensTable::symbTable.get_value(TokensTable::elements[i]);
+            if (TokensTable::elementsClass[i] == StaticSymbols::symbolClass)
+            {
+                memNumber = TokensTable::symbTable.get_value(TokensTable::elements[i]);
+            }
+            is_relative = true;
         }
         if (memNumber != std::numeric_limits<int>::min())
         {
             std::string out = std::to_string(memNumber);
             outputStringVector.push_back(out);
+            relAdresses.push_back(is_relative);
         }
     }
 
@@ -175,4 +191,13 @@ void Parser::reset_class()
 {
     relativeIdxData.clear();
     outputStringVector.clear();
+    relAdresses.clear();
+}
+
+ObjectCode Parser::get_objectCode()
+{
+    ObjectCode objArray;
+    objArray.set_objCodeArray(outputStringVector);
+    objArray.set_relAdresses(relAdresses);
+    return objArray;
 }

@@ -11,5 +11,14 @@ FileToMount::FileToMount(std::string programName)
 void FileToMount::parseModuleName(std::string programName)
 {
     std::size_t posExt = programName.find(assemblyExt);
-    moduleName = programName.substr(posExt);
+    moduleName = programName.substr(0, posExt);
+}
+
+void FileToMount::set_tables(SymbTable _symbTable, DefTable _defTable, 
+                             ObjectCode _objCode, UsageTable _usageTable)
+{
+    symbTable = _symbTable;
+    defTable = _defTable;
+    objCode = _objCode;
+    usageTable = _usageTable;
 }

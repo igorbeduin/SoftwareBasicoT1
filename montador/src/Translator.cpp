@@ -214,3 +214,10 @@ void Translator::reset_processing()
     TokensTable::reset_class();
     parser.reset_class();
 }
+
+FileToMount Translator::get_FileToMount()
+{
+    FileToMount file(programName);
+    file.set_tables(TokensTable::get_symbTable(),TokensTable::get_defTable(), parser.get_objectCode(), TokensTable::get_usageTable());
+    return file;
+}

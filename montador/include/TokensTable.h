@@ -48,4 +48,8 @@ class TokensTable
         static void reset_class();
         static bool found_modTags(bool isModule);
         static void remove_label_spaces();
+
+        static SymbTable get_symbTable();
+        static DefTable get_defTable();
+        static UsageTable get_usageTable();
 };
