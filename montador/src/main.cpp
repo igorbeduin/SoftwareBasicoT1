@@ -8,8 +8,8 @@
 
 int main(int argc, char **argv)
 {
-    FileToMount modules[3];
     int number_of_modules = argc - 1;
+    FileToMount modules[number_of_modules];
 
     for (int i = 0; i < number_of_modules && !ControlVariables::quitRequest; i++)
     {   
@@ -29,16 +29,18 @@ int main(int argc, char **argv)
         if (!ControlVariables::quitRequest)
         {
             modules[i] = translator.get_FileToMount();
-        }
-        if (!ControlVariables::quitRequest)
-        {
             translator.reset_processing();
         }
-        if (!ControlVariables::quitRequest)
-        {
-            translator.write_output(programName);
-            std::cout << std::endl << "SUCCESS!" << std::endl;
-        }
+        std::cout << std::endl;
+    }
+
+    int correctionFactor = 0;
+    for (int i = 0; i < number_of_modules && !ControlVariables::quitRequest; i++)
+    {
+        modules[i].set_correctionFactor(correctionFactor);
+        modules[i].build_outputStrings();
+        modules[i].write_outputFile();
+        correctionFactor += modules[i].get_next_correctionFactor();
     }
 
     return 0;

@@ -6,8 +6,8 @@
 class UsageTable
 {
     private:
-        std::map<int, std::string> table;
     public:
+        std::map<int, std::string> table;
         void insert_usage(int pos, std::string symbol);
         void reset_class();
 };
