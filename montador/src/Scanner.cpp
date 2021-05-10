@@ -71,6 +71,7 @@ void Scanner::classify_elements(bool isModule)
         TokensTable::search_for_sections();
         if (!ControlVariables::quitRequest)
         {
+            TokensTable::solve_extern_and_public_pos();
             TokensTable::classify_tokens();
             if (!ControlVariables::quitRequest)
             {

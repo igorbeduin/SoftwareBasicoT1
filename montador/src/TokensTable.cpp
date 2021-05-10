@@ -443,3 +443,55 @@ bool TokensTable::label_is_space(std::string label)
     }
     return false;
 }
+
+void TokensTable::solve_extern_and_public_pos()
+{
+    std::string auxSection = "SECTION";
+    std::string auxData = "DATA";
+
+    for (int i = dataSection["begin"]; i < dataSection["end"] - 1 && find_extern_or_public_in_data_section(); i++)
+    {
+        if (elements[i + 1] == ":" && elements[i + 2] == "EXTERN")
+        {
+            std::string aux[5];
+            aux[0] = elements[i];
+            aux[1] = elements[i + 1];
+            aux[2] = elements[i + 2];
+            aux[3] = auxSection;
+            aux[4] = auxData;
+
+            for (int j = 0; j < 5; j++)
+            {
+                elements[i - 2 + j] = aux[j];
+            }
+            dataSection["begin"] += 3;
+            i+=2;
+        } else if (elements[i] == "PUBLIC")
+        {
+            std::string aux[4];
+            aux[0] = elements[i];
+            aux[1] = elements[i + 1];
+            aux[2] = auxSection;
+            aux[3] = auxData;
+
+            for (int j = 0; j < 4; j++)
+            {
+                elements[i - 2 + j] = aux[j];
+            }
+            dataSection["begin"] += 2;
+            i+=1;
+        }
+    }
+}
+
+bool TokensTable::find_extern_or_public_in_data_section()
+{
+    for (int i = dataSection["begin"]; i < dataSection["end"] - 1; i++)
+    {
+        if (elements[i] == "PUBLIC" || elements[i] == "EXTERN")
+        {
+            return true;
+        }
+    }
+    return false;
+}

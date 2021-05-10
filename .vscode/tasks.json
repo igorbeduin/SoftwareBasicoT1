@@ -5,7 +5,7 @@
             "command": "make",
             "args": [],
             "options": {
-                "cwd": "${workspaceFolder}/ligador"
+                "cwd": "${workspaceFolder}/montador"
             }
         }
     ],

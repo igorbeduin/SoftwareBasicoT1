@@ -55,6 +55,9 @@ class TokensTable
         static void set_offset_to_data_labels(int offset);
         static bool label_is_space(std::string label);
 
+        static void solve_extern_and_public_pos();
+        static bool find_extern_or_public_in_data_section();
+
         static SymbTable get_symbTable();
         static DefTable get_defTable();
         static UsageTable get_usageTable();
