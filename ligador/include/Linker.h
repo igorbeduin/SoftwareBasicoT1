@@ -13,6 +13,7 @@
 class Linker
 {
     private:
+        std::string outputProgramName = "linked_output";
         int nModules = 0;
         std::ifstream inputFile;
         std::ofstream outputFile;
@@ -31,7 +32,7 @@ class Linker
         std::vector<std::string> text_lines;
 
     public:
-        std::string outputSufix = "linked";
+        std::string outputSufix = "_linked";
         std::string outputExt = ".obj";
         void read_module(std::string programName);
         void link();

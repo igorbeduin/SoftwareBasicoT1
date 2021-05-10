@@ -18,6 +18,7 @@ void Linker::read_module(std::string programName)
         }
         inputFile.close();
         nModules ++;
+        
     }
     else
     {
@@ -137,7 +138,23 @@ void Linker::organize_tables()
 }
 
 void Linker::write_outputFile()
-{}
+{
+    outputProgramName = outputProgramName + outputSufix + outputExt;
+    outputFile.open(outputProgramName);
+    if (outputFile.is_open())
+    {
+        for (uint i = 0; i < objCode.objCodeArray.size(); i++)
+        {
+            outputFile << objCode.objCodeArray[i];
+            if (i != objCode.objCodeArray.size() - 1)
+            {
+                outputFile << " ";
+            }
+        }
+        outputFile.close();
+        std::cout << "SUCCESS!" << std::endl;
+    }
+}
 
 void Linker::clear_buffers()
 {
