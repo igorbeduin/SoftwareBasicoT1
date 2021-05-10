@@ -49,6 +49,12 @@ class TokensTable
         static bool found_modTags(bool isModule);
         static void remove_label_spaces();
 
+        static bool label_is_in_text_section(std::string label);
+        static bool label_is_in_data_section(std::string label);
+        static void set_offset_to_labels(int offset);
+        static void set_offset_to_data_labels(int offset);
+        static bool label_is_space(std::string label);
+
         static SymbTable get_symbTable();
         static DefTable get_defTable();
         static UsageTable get_usageTable();

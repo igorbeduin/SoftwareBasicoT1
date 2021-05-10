@@ -16,7 +16,8 @@ class Linker
         int nModules = 0;
         std::ifstream inputFile;
         std::ofstream outputFile;
-        std::vector<int> correctFactors;
+        int correctFactor = 0;
+        int auxCorrectFactor = 0;
 
         SymbTable symbTable;
         DefTable defTable;
@@ -37,4 +38,8 @@ class Linker
         void write_outputFile();
         void parse_line(std::string line);
         void organize_tables();
+        void clear_buffers();
+
+        void solve_relatives();
+        bool is_in_usage_table(int pos);
 };

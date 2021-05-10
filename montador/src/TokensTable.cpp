@@ -385,3 +385,61 @@ UsageTable TokensTable::get_usageTable()
 {
     return usageTable;
 }
+
+bool TokensTable::label_is_in_text_section(std::string label)
+{
+    for (int i = textSection["begin"]; i < textSection["end"]; i++)
+    {
+        if (elements[i] == label && elementsClass[i] == StaticSymbols::labelClass)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool TokensTable::label_is_in_data_section(std::string label)
+{
+    for (int i = dataSection["begin"]; i < dataSection["end"]; i++)
+    {
+        if (elements[i] == label && elementsClass[i] == StaticSymbols::labelClass)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+void TokensTable::set_offset_to_labels(int offset)
+{   
+    for (std::map<std::string, int>::iterator it = defTable.table.begin(); it != defTable.table.end(); it++)
+    {
+        if (label_is_in_text_section(it->first))
+        {
+            it->second = it->second - offset;
+        }
+    }
+}
+
+void TokensTable::set_offset_to_data_labels(int offset)
+{
+    for (std::map<std::string, int>::iterator it = defTable.table.begin(); it != defTable.table.end(); it++)
+    {
+        if (label_is_in_data_section(it->first) && label_is_space(it->first))
+        {
+            it->second = it->second + offset;
+        }
+    }
+}
+
+bool TokensTable::label_is_space(std::string label)
+{
+    for (int i = dataSection["begin"]; i < dataSection["end"]; i++)
+    {
+        if (elements[i] == label && elementsClass[i] == StaticSymbols::labelClass && elements[i + 2] == "SPACE")
+        {
+            return true;
+        }
+    }
+    return false;
+}

@@ -3,12 +3,15 @@
 
 void Linker::read_module(std::string programName)
 {
+    clear_buffers();
     std::string currLine;
     std::string correctedLine;
 
     inputFile.open(programName);
     if (inputFile.is_open())
     {
+        correctFactor += auxCorrectFactor;
+        auxCorrectFactor = 0;
         while (getline(inputFile, currLine))
         {
             parse_line(currLine);
@@ -21,6 +24,7 @@ void Linker::read_module(std::string programName)
         std::cout << "ERROR: Unable to read file " << programName << std::endl;
         ControlVariables::set_quitRequest(true);
     }
+    organize_tables();
 }
 
 void Linker::parse_line(std::string line)
@@ -55,47 +59,38 @@ void Linker::parse_line(std::string line)
 
 void Linker::link()
 {
-    organize_tables();
+    solve_relatives();
 }
 
 void Linker::organize_tables()
-{   
+{
     // Get correction factors
-    for (int i = 0; i < nModules; i+=2)
-    {
-        correctFactors.push_back(std::stoi(header_lines[i + 1]));
-    }
+    auxCorrectFactor += std::stoi(header_lines[1]);
 
     // Get realocation bits
-    for (uint i = 0; i < realoc_lines.size(); i++)
+    std::string::iterator it_realoc = realoc_lines[0].begin();
+    while (it_realoc != realoc_lines[0].end())
     {
-        std::string::iterator it = realoc_lines[i].begin();
-        while (it != realoc_lines[i].end())
-        {
-            objCode.relAdresses.push_back((bool)(*it == '1'));
-            it++;
-        }
+        objCode.relAdresses.push_back((bool)(*it_realoc == '1'));
+        it_realoc++;
     }
 
     // Get object code array
-    for (uint i = 0; i < text_lines.size(); i++)
+    std::string::iterator it_obj = text_lines[0].begin();
+    std::string stringChar = "";
+    while (it_obj != text_lines[0].end())
     {
-        std::string::iterator it = text_lines[i].begin();
-        std::string stringChar = "";
-        while (it != text_lines[i].end())
+        if (*it_obj == ',')
         {
-            if (*it == ',')
-            {
-                objCode.objCodeArray.push_back(stringChar);
-                stringChar.clear();
-            } else
-            {
-                stringChar.insert(stringChar.end(),*it);
-            }
-            it++;
+            objCode.objCodeArray.push_back(stringChar);
+            stringChar.clear();
+        } else
+        {
+            stringChar.insert(stringChar.end(),*it_obj);
         }
-        objCode.objCodeArray.push_back(stringChar);
+        it_obj++;
     }
+    objCode.objCodeArray.push_back(stringChar);
 
     // Get def table
     for (uint i = 0; i < def_lines.size(); i++)
@@ -115,7 +110,7 @@ void Linker::organize_tables()
             stringValue.insert(stringValue.end(), *it);
             it++;
         }
-        defTable.insert_value(stringSymb, std::stoi(stringValue));
+        defTable.insert_value(stringSymb, std::stoi(stringValue) + correctFactor);
     }
 
     // Get usage table
@@ -136,9 +131,49 @@ void Linker::organize_tables()
             stringValue.insert(stringValue.end(), *it);
             it++;
         }
-        usageTable.insert_usage(std::stoi(stringValue), stringSymb);
+        usageTable.insert_usage(std::stoi(stringValue) + correctFactor, stringSymb);
     }
+    std::cout << std::endl;
 }
 
 void Linker::write_outputFile()
 {}
+
+void Linker::clear_buffers()
+{
+   header_lines.clear();
+   realoc_lines.clear();
+   usage_lines.clear();
+   def_lines.clear();
+   text_lines.clear();
+}
+
+void Linker::solve_relatives()
+{
+    for (std::map<int, std::string>::iterator it = usageTable.table.begin(); it != usageTable.table.end(); it++)
+    {
+        int pos = it->first;
+        std::string symbol = it->second;
+        int offset = defTable.table[symbol];
+        objCode.objCodeArray[pos] = std::to_string(std::stoi(objCode.objCodeArray[pos]) + offset);
+    }
+    for (uint i = (uint)correctFactor; i < objCode.objCodeArray.size(); i++)
+    {
+        if (!is_in_usage_table(i) && objCode.relAdresses[i] == true)
+        {
+            objCode.objCodeArray[i] = std::to_string(std::stoi(objCode.objCodeArray[i]) + correctFactor);
+        }
+    }
+}
+
+bool Linker::is_in_usage_table(int pos)
+{
+    for (std::map<int, std::string>::iterator it = usageTable.table.begin(); it != usageTable.table.end(); it ++)
+    {
+        if (it->first == pos)
+        {
+            return true;
+        }
+    }
+    return false;
+}

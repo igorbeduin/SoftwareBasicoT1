@@ -111,6 +111,9 @@ void Parser::mount_output()
 
     int label_offset = outputStringVector.size() - data_section_offset;
 
+    TokensTable::set_offset_to_labels(label_offset);
+    TokensTable::set_offset_to_data_labels(data_section_offset);
+
     for (uint i = 0; i < relativeIdxData.size(); i++)
     {
         int new_value = 0;
