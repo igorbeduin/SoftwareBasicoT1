@@ -431,7 +431,7 @@ void TokensTable::set_offset_to_data_labels(int offset)
 {
     for (std::map<std::string, int>::iterator it = defTable.table.begin(); it != defTable.table.end(); it++)
     {
-        if (label_is_in_data_section(it->first) && label_is_space(it->first))
+        if (label_is_in_data_section(it->first))
         {
             it->second = it->second + offset;
         }

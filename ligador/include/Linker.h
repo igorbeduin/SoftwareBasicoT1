@@ -41,6 +41,7 @@ class Linker
         void organize_tables();
         void clear_buffers();
 
+        void solve_usage();
         void solve_relatives();
         bool is_in_usage_table(int pos);
 };

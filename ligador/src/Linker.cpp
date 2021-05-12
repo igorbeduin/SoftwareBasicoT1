@@ -26,6 +26,7 @@ void Linker::read_module(std::string programName)
         ControlVariables::set_quitRequest(true);
     }
     organize_tables();
+    solve_relatives();
 }
 
 void Linker::parse_line(std::string line)
@@ -60,7 +61,7 @@ void Linker::parse_line(std::string line)
 
 void Linker::link()
 {
-    solve_relatives();
+    solve_usage();
 }
 
 void Linker::organize_tables()
@@ -167,13 +168,7 @@ void Linker::clear_buffers()
 
 void Linker::solve_relatives()
 {
-    for (std::map<int, std::string>::iterator it = usageTable.table.begin(); it != usageTable.table.end(); it++)
-    {
-        int pos = it->first;
-        std::string symbol = it->second;
-        int offset = defTable.table[symbol];
-        objCode.objCodeArray[pos] = std::to_string(std::stoi(objCode.objCodeArray[pos]) + offset);
-    }
+
     for (uint i = (uint)correctFactor; i < objCode.objCodeArray.size(); i++)
     {
         if (!is_in_usage_table(i) && objCode.relAdresses[i] == true)
@@ -193,4 +188,15 @@ bool Linker::is_in_usage_table(int pos)
         }
     }
     return false;
+}
+
+void Linker::solve_usage()
+{
+    for (std::map<int, std::string>::iterator it = usageTable.table.begin(); it != usageTable.table.end(); it++)
+    {
+        int pos = it->first;
+        std::string symbol = it->second;
+        int offset = defTable.table[symbol];
+        objCode.objCodeArray[pos] = std::to_string(std::stoi(objCode.objCodeArray[pos]) + offset);
+    }
 }
