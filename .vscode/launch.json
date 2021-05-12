@@ -9,7 +9,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/montador/montador",
-            "args": ["exemplos(2 formatos - validos)/fat_mod_A.asm", "exemplos(2 formatos - validos)/fat_mod_B.asm"],
+            "args": ["montador/fivefibonacci.asm"],
             // "args": ["montador/fivefibonacci.obj"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
