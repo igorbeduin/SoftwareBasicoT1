@@ -18,7 +18,7 @@ Diretivas de compilação: `-std=c++11 -g -Wall -Wextra -Wno-unused-parameter`.
 
 ## Execução
 
-O programa "montador" recebe como argumento um código .asm e escreve no diretório de execução o arquivo de saída .obj.
+O programa "montador" recebe como argumento um a três código .asm e escreve no diretório de execução o arquivo de saída para ser ligado .obj.
 
 - Durante o processo de montagem é feita a verificação de erros. Caso algum erro seja detectado, o programa é parado e é escrito na tela o tipo de erro encontrado e em qual linha do codigo original ele ocorreu;
 - O "montador" pode receber de 1 a 3 programas para ser montado;
