@@ -31,6 +31,7 @@ O programa "ligador" recebe como argumento um a três códigos .obj de mesmo nom
 
 - O arquivo *progs_linked.obj* serve como entrada para o "simulador"
 - Este ligador espera que as diretivas PUBLIC e EXTERN sejam chamadas ANTES da SECTION DATA
+- Este programa é gerado para funcionar com o simulador disponibilizado, isto é, que o primeiro valor é op code;
   
 O programa "simulador" recebe como argumento um código *progs_linked.obj* ligado. Caso o programa chame a diretiva OUTPUT, um arquivo de saída .out é criado com os valores de OUTPUT.
 
@@ -38,6 +39,7 @@ O programa "simulador" recebe como argumento um código *progs_linked.obj* ligad
 - Se o programa do código .obj não chamar a diretiva OUTPUT, o arquivo .out não é criado;
 - Existem mensagens de comunicação com o usuário no caso das diretivas OUTPUT e INPUT, a fim de se facilitar o entendimento da execução;
 - o simulador possui uma memória fixa de 216 palavras;
+- Este simulador foi modificado para funcionar da mesma forma que o disponibilizado pelo professor. Caso este não funcione, recomenda-se testar com o do professor.
 
 ### Exemplo de uso do montador:
 
