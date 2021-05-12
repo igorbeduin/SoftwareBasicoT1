@@ -63,5 +63,5 @@ make clean # para remoção dos arquivos .o intermediários
 make
 make clean # para remoção dos arquivos .o intermediários
 ./simulador progs_linked.obj # progs_linked.obj criado na saída do ligador
-# caso o código possua chamadas de OUTPUT, um arquivo texto de saída fat.out é criado neste diretório com os valores de OUTPUT
+# caso o código possua chamadas de OUTPUT, um arquivo texto de saída .out é criado neste diretório com os valores de OUTPUT
 ```
