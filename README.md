@@ -1,7 +1,7 @@
 # Software Basico Trabalhos
 Repositório para versionamento do Trabalho 1 e 2 da disciplina Software Básico da Universidade de Brasília.
 
-Este repositorio (https://github.com/igorbeduin/SoftwareBasicoT1) possui três programas: "montador", "ligador" e "simulador". Os três são compilados via `Makefile`, cada um com seu respectivo arquivo em seu diretório.
+Este repositorio (https://github.com/igorbeduin/SoftwareBasicoTrabalhos) possui três programas: "montador", "ligador" e "simulador". Os três são compilados via `Makefile`, cada um com seu respectivo arquivo em seu diretório.
 
 Todos os testes e compilações foram feitas em ambiente Linux (Ubuntu 20LTS).
 
