@@ -47,6 +47,11 @@ void Translator::read_file(bool showLines)
             }
         }
         inputFile.close();
+        if (orgLines.size() == 0)
+        {
+            ControlVariables::set_quitRequest(true);
+            std::cout << "Blank file." << std::endl;
+        }
     } else
     {
         std::cout << "ERROR: Unable to read file " << programName << std::endl;
