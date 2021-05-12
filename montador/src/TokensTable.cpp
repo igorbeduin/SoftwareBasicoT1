@@ -321,10 +321,9 @@ void TokensTable::reset_class()
 
 bool TokensTable::found_modTags(bool isModule)
 {
-    // TODO: ver se o begin precisa mesmo de label + : antes
     if (isModule)
     {
-        if (elements[2] != StaticSymbols::beginMark && elements[0] != StaticSymbols::beginMark)
+        if (elements[3] != StaticSymbols::beginMark && elements[2] != StaticSymbols::beginMark && elements[0] != StaticSymbols::beginMark)
         {
             std::cout << "ERROR: no 'BEGIN' found!" << std::endl;
             return false;
@@ -337,14 +336,18 @@ bool TokensTable::found_modTags(bool isModule)
         if (elements[0] == StaticSymbols::beginMark)
         {
             elementsClass[0] = StaticSymbols::ignoreClass;
-        } else 
+        }
+        else if (elements[2] == StaticSymbols::beginMark)
         {
             elementsClass[2] = StaticSymbols::ignoreClass;
+        } else 
+        {
+            elementsClass[3] = StaticSymbols::ignoreClass;
         }
         *(elementsClass.end() - 1) = StaticSymbols::ignoreClass;
         return true;
     }
-    else if (elements[2] == StaticSymbols::beginMark || elements[0] == StaticSymbols::beginMark)
+    else if (elements[3] == StaticSymbols::beginMark || elements[2] == StaticSymbols::beginMark || elements[0] == StaticSymbols::beginMark)
     {
         std::cout << "ERROR: 'BEGIN' found!" << std::endl;
     } else 
