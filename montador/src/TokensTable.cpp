@@ -374,6 +374,15 @@ void TokensTable::remove_label_spaces()
                 elementsClass.erase(elementsClass.begin() + i, elementsClass.begin() + i + 1);
             }
         }
+        if (elements[i] == StaticSymbols::labelSeparator)
+        {
+            if (elements[i - 1] == StaticSymbols::dummyClass)
+            {
+                elements.erase(elements.begin() + i - 1, elements.begin() + i);
+                elementsLine.erase(elementsLine.begin() + i - 1, elementsLine.begin() + i);
+                elementsClass.erase(elementsClass.begin() + i - 1, elementsClass.begin() + i);
+            }
+        }
     }
 }
 
