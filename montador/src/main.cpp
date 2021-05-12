@@ -3,26 +3,49 @@
 #include <string>
 
 #include "../include/Translator.h"
+#include "../include/FileToMount.h"
+#include "../include/ControlVariables.h"
 
 int main(int argc, char **argv)
 {
-    // Passing "test.asm" as argument
-    std::string programName = argv[argc - 1];
-    std::string line;
-    std::string outputFile;
-
-    Translator translator(programName);
-
-    translator.read_file(false);
-    translator.first_pass();
-    if (!TokensTable::get_quit_request())
+    int number_of_modules = argc - 1;
+    if (number_of_modules > 3)
     {
-        translator.second_pass();
+        ControlVariables::set_quitRequest(true);
+        std::cout << "ERROR: Number of modules exceeding maximum permited (3)." << std::endl;
     }
-    if (!TokensTable::get_quit_request())
+    FileToMount modules[number_of_modules];
+
+    for (int i = 0; i < number_of_modules && !ControlVariables::quitRequest; i++)
+    {   
+        std::string programName = argv[i+1];
+        std::cout << "Processing module " << programName << " ..." << std::endl;
+        Translator translator(programName);
+        translator.read_file(false);
+        translator.set_is_module((bool)(number_of_modules - 1));
+        if (!ControlVariables::quitRequest)
+        {
+            translator.first_pass();
+        }
+        if (!ControlVariables::quitRequest)
+        {
+            translator.second_pass();
+        }
+        if (!ControlVariables::quitRequest)
+        {
+            modules[i] = translator.get_FileToMount();
+            translator.reset_processing();
+        }
+        std::cout << std::endl;
+    }
+
+    int correctionFactor = 0;
+    for (int i = 0; i < number_of_modules && !ControlVariables::quitRequest; i++)
     {
-        translator.write_output(programName);
-        std::cout << std::endl << "SUCCESS!" << std::endl;
+        modules[i].set_correctionFactor(correctionFactor);
+        modules[i].build_outputStrings();
+        modules[i].write_outputFile();
+        correctionFactor += modules[i].get_next_correctionFactor();
     }
 
     return 0;

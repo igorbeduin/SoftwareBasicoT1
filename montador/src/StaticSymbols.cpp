@@ -21,3 +21,7 @@ std::string StaticSymbols::dataSectionMark = "DATA";
 std::string StaticSymbols::textSectionMark = "TEXT";
 std::string StaticSymbols::stopSectionMark = "STOP";
 
+std::string StaticSymbols::beginMark = "BEGIN";
+std::string StaticSymbols::endMark = "END";
+std::string StaticSymbols::publicMark = "PUBLIC";
+std::string StaticSymbols::externMark = "EXTERN";

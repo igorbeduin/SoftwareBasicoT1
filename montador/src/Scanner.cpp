@@ -24,6 +24,11 @@ void Scanner::split_elements(std::string line, int nLine)
             TokensTable::insert_token(StaticSymbols::argumentSeparator, nLine, StaticSymbols::dummyClass);
             element.erase(0, 1);
         }
+        if (element[0] == (StaticSymbols::labelSeparator)[0])
+        {
+            TokensTable::insert_token(StaticSymbols::labelSeparator, nLine, StaticSymbols::dummyClass);
+            element.erase(0, 1);
+        }
         TokensTable::insert_token(element, nLine, StaticSymbols::dummyClass);
         
     }
@@ -51,17 +56,32 @@ void Scanner::reset_indexes()
     indexes.push_back(0);
 }
 
-void Scanner::classify_elements()
+void Scanner::classify_elements(bool isModule)
 {
-    TokensTable::search_for_sections();
-    TokensTable::classify_tokens();
-    if (!TokensTable::get_quit_request())
+    TokensTable::remove_label_spaces();
+    if (isModule)
     {
-        TokensTable::find_first_pass_errors();
+        ControlVariables::set_quitRequest(!TokensTable::found_modTags(isModule));
+    } else
+    {
+        ControlVariables::set_quitRequest(TokensTable::found_modTags(isModule));
     }
-    if (!TokensTable::get_quit_request())
+    if (!ControlVariables::quitRequest)
     {
-        TokensTable::fill_symb_table();
+        TokensTable::search_for_sections();
+        if (!ControlVariables::quitRequest)
+        {
+            TokensTable::solve_extern_and_public_pos();
+            TokensTable::classify_tokens();
+            if (!ControlVariables::quitRequest)
+            {
+                TokensTable::find_first_pass_errors();
+                if (!ControlVariables::quitRequest)
+                {
+                    TokensTable::fill_tables();
+                }
+            }
+        }
     }
 }
 

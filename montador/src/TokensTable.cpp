@@ -4,11 +4,16 @@
 std::vector<std::string> TokensTable::elements;
 std::vector<int> TokensTable::elementsLine;
 std::vector<std::string> TokensTable::elementsClass;
+
 std::map<std::string, int> TokensTable::dataSection;
 std::map<std::string, int> TokensTable::textSection;
+
 SymbTable TokensTable::symbTable;
+DefTable TokensTable::defTable;
+UsageTable TokensTable::usageTable;
+
 int TokensTable::max_length = 50;
-bool TokensTable::quitRequest = false;
+
 std::vector<char> TokensTable::numbers = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 std::vector<char> TokensTable::letters = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
                              'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U',
@@ -39,6 +44,8 @@ void TokensTable::classify_tokens()
             std::cout << std::endl << "L" << elementsLine[i] << ": ";
         }
         std::cout << elements[i] << " ";
+        
+        // INICIA LOOP
         if (is_operation(elements[i]))
         {
             elementsClass[i] = StaticSymbols::operationClass;
@@ -49,7 +56,7 @@ void TokensTable::classify_tokens()
                 elementsClass[i-1] = StaticSymbols::labelClass;
                 if (lexical_error(i - 1))
                 {
-                    quitRequest = true;
+                    ControlVariables::set_quitRequest(true);
                     break;
                 }
             }
@@ -74,13 +81,19 @@ void TokensTable::classify_tokens()
         {
             elementsClass[i] = StaticSymbols::ignoreClass;
             elementsClass[i + 1] = StaticSymbols::ignoreClass;
-        } else if (elementsClass[i - 1] == StaticSymbols::operationClass && elements[i - 1] != "SPACE")
+        } else if (i != 0)
         {
-            elementsClass[i] = StaticSymbols::symbolCandidateClass;
-            if (lexical_error(i))
+            if (elementsClass[i - 1] == StaticSymbols::operationClass && elements[i - 1] != "SPACE")
             {
-                set_quit_request(true);
-                break;
+                if (elementsClass[i] != StaticSymbols::ignoreClass)
+                {
+                    elementsClass[i] = StaticSymbols::symbolCandidateClass;
+                }
+                if (lexical_error(i))
+                {
+                    ControlVariables::set_quitRequest(true);
+                    break;
+                }
             }
         }
     }
@@ -155,11 +168,16 @@ void TokensTable::search_for_sections()
     {
         textSection["end"] = (stopFound - elements.begin());
     }
+    else if (*(elements.end() - 1) == StaticSymbols::endMark && *(elementsClass.end() - 1) == StaticSymbols::ignoreClass)
+    {
+        textSection["end"] = ((elements.end() - 1) - elements.begin());
+    }
 
     if (textSection["begin"] > dataSection["begin"])
     {
         dataSection["end"] = textSection["begin"] - 1;
-    } else
+    }
+    else
     {
         dataSection["end"] = elements.size() - 1;
     }
@@ -184,7 +202,7 @@ bool TokensTable::is_in_text_section(int index)
     return (index >= textSection["begin"] && index <= textSection["end"]);
 }
 
-void TokensTable::fill_symb_table()
+void TokensTable::fill_tables()
 {
     int lineCounter = 0;
     for (uint i = 0; i < elements.size(); i++)
@@ -197,7 +215,29 @@ void TokensTable::fill_symb_table()
             }
             if (elementsClass[i] == StaticSymbols::operationClass)
             {
-                lineCounter += DirectTable::directTable[elements[i]]["WORDS"];
+                if (elements[i] != StaticSymbols::externMark)
+                {
+                    if (elements[i] != StaticSymbols::publicMark)
+                    {
+                        lineCounter += DirectTable::directTable[elements[i]]["WORDS"];
+                    }
+                }
+                else
+                {
+                    symbTable.set_as_extern(elements[i - 2], true);
+                }
+            } 
+        }
+    }
+    //ACHA PUBLICS
+    for (uint i = 0; i < elements.size(); i++)
+    {
+        if (elementsClass[i] == StaticSymbols::operationClass && elements[i] == StaticSymbols::publicMark)
+        {
+            if (elementsClass[i+1] == StaticSymbols::symbolClass)
+            {
+                std::string symbol = elements[i + 1];
+                defTable.insert_value(symbol, symbTable.get_value(symbol));
             }
         }
     }
@@ -253,26 +293,223 @@ bool TokensTable::lexical_error(int index)
     return found;
 }
 
-bool TokensTable::get_quit_request()
-{
-    return quitRequest;
-}
-
-void TokensTable::set_quit_request(bool request)
-{
-    quitRequest = request;
-}
-
 void TokensTable::raise_semantic_error(int index)
 {
         std::cout << std::endl << std::endl << ">>>> ERRO SEMANTICO NA L" << elementsLine[index] << " <<<<" << std::endl;
         std::cout << "Abortando o programa..." << std::endl << std::endl;
-        set_quit_request(true);
+        ControlVariables::set_quitRequest(true);
 }
 
 void TokensTable::raise_syntactic_error(int index)
 {
         std::cout << std::endl << std::endl << ">>>> ERRO SINTATICO NA L" << elementsLine[index] << " <<<<" << std::endl;
         std::cout << "Abortando o programa..." << std::endl << std::endl;
-        set_quit_request(true);
+        ControlVariables::set_quitRequest(true);
+}
+
+void TokensTable::reset_class()
+{
+    elements.clear();
+    elementsLine.clear();
+    elementsClass.clear();
+    dataSection.clear();
+    textSection.clear();
+    symbTable.reset_class();
+    defTable.reset_class();
+    usageTable.reset_class();
+}
+
+bool TokensTable::found_modTags(bool isModule)
+{
+    if (isModule)
+    {
+        if (elements[3] != StaticSymbols::beginMark && elements[2] != StaticSymbols::beginMark && elements[0] != StaticSymbols::beginMark)
+        {
+            std::cout << "ERROR: no 'BEGIN' found!" << std::endl;
+            return false;
+        } 
+        if (*(elements.end() - 1) != StaticSymbols::endMark)
+        {
+            std::cout << "ERROR: no 'END' found!" << std::endl;
+            return false;
+        }
+        if (elements[0] == StaticSymbols::beginMark)
+        {
+            elementsClass[0] = StaticSymbols::ignoreClass;
+        }
+        else if (elements[2] == StaticSymbols::beginMark)
+        {
+            elementsClass[2] = StaticSymbols::ignoreClass;
+        } else 
+        {
+            elementsClass[3] = StaticSymbols::ignoreClass;
+        }
+        *(elementsClass.end() - 1) = StaticSymbols::ignoreClass;
+        return true;
+    }
+    else if (elements[3] == StaticSymbols::beginMark || elements[2] == StaticSymbols::beginMark || elements[0] == StaticSymbols::beginMark)
+    {
+        std::cout << "ERROR: 'BEGIN' found!" << std::endl;
+    } else 
+    {
+        return false;
+    }
+    if (*(elements.end() - 1) == StaticSymbols::endMark)
+    {
+        std::cout << "ERROR: 'END' found!" << std::endl;
+    } else 
+    {
+        return false;
+    }
+    return true;
+}
+
+void TokensTable::remove_label_spaces()
+{
+    for (uint i = 0; i < elements.size(); i++)
+    {
+        if (elements[i] == StaticSymbols::dummyClass)
+        {
+            if (elements[i - 1] == StaticSymbols::labelSeparator)
+            {
+                elements.erase(elements.begin() + i, elements.begin() + i + 1);
+                elementsLine.erase(elementsLine.begin() + i, elementsLine.begin() + i + 1);
+                elementsClass.erase(elementsClass.begin() + i, elementsClass.begin() + i + 1);
+            }
+        }
+        if (elements[i] == StaticSymbols::labelSeparator)
+        {
+            if (elements[i - 1] == StaticSymbols::dummyClass)
+            {
+                elements.erase(elements.begin() + i - 1, elements.begin() + i);
+                elementsLine.erase(elementsLine.begin() + i - 1, elementsLine.begin() + i);
+                elementsClass.erase(elementsClass.begin() + i - 1, elementsClass.begin() + i);
+            }
+        }
+    }
+}
+
+SymbTable TokensTable::get_symbTable()
+{
+    return symbTable;
+}
+
+DefTable TokensTable::get_defTable()
+{
+    return defTable;
+}
+
+UsageTable TokensTable::get_usageTable()
+{
+    return usageTable;
+}
+
+bool TokensTable::label_is_in_text_section(std::string label)
+{
+    for (int i = textSection["begin"]; i < textSection["end"]; i++)
+    {
+        if (elements[i] == label && elementsClass[i] == StaticSymbols::labelClass)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool TokensTable::label_is_in_data_section(std::string label)
+{
+    for (int i = dataSection["begin"]; i < dataSection["end"]; i++)
+    {
+        if (elements[i] == label && elementsClass[i] == StaticSymbols::labelClass)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+void TokensTable::set_offset_to_labels(int offset)
+{   
+    for (std::map<std::string, int>::iterator it = defTable.table.begin(); it != defTable.table.end(); it++)
+    {
+        if (label_is_in_text_section(it->first))
+        {
+            it->second = it->second - offset;
+        }
+    }
+}
+
+void TokensTable::set_offset_to_data_labels(int offset)
+{
+    for (std::map<std::string, int>::iterator it = defTable.table.begin(); it != defTable.table.end(); it++)
+    {
+        if (label_is_in_data_section(it->first))
+        {
+            it->second = it->second + offset;
+        }
+    }
+}
+
+bool TokensTable::label_is_space(std::string label)
+{
+    for (int i = dataSection["begin"]; i < dataSection["end"]; i++)
+    {
+        if (elements[i] == label && elementsClass[i] == StaticSymbols::labelClass && elements[i + 2] == "SPACE")
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+void TokensTable::solve_extern_and_public_pos()
+{
+    std::string auxSection = "SECTION";
+    std::string auxData = "DATA";
+
+    for (int i = dataSection["begin"]; i < dataSection["end"] - 1 && find_extern_or_public_in_data_section(); i++)
+    {
+        if (elements[i + 1] == ":" && elements[i + 2] == "EXTERN")
+        {
+            std::string aux[5];
+            aux[0] = elements[i];
+            aux[1] = elements[i + 1];
+            aux[2] = elements[i + 2];
+            aux[3] = auxSection;
+            aux[4] = auxData;
+
+            for (int j = 0; j < 5; j++)
+            {
+                elements[i - 2 + j] = aux[j];
+            }
+            dataSection["begin"] += 3;
+            i+=2;
+        } else if (elements[i] == "PUBLIC")
+        {
+            std::string aux[4];
+            aux[0] = elements[i];
+            aux[1] = elements[i + 1];
+            aux[2] = auxSection;
+            aux[3] = auxData;
+
+            for (int j = 0; j < 4; j++)
+            {
+                elements[i - 2 + j] = aux[j];
+            }
+            dataSection["begin"] += 2;
+            i+=1;
+        }
+    }
+}
+
+bool TokensTable::find_extern_or_public_in_data_section()
+{
+    for (int i = dataSection["begin"]; i < dataSection["end"] - 1; i++)
+    {
+        if (elements[i] == "PUBLIC" || elements[i] == "EXTERN")
+        {
+            return true;
+        }
+    }
+    return false;
 }

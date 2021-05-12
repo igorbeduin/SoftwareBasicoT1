@@ -18,21 +18,15 @@ void Simulator::read_obj_file()
     outputProgramPath = inputProgramPath.substr(0, inputProgramPath.find(extMark));
     outputProgramPath = outputProgramPath + outputExt;
 
-                                                std::string firstChar;
-    objectFile >> firstChar;
-    code_len = 0;
+    int counter = 0;
     while (!objectFile.eof())
     {    
-        code_len++;
         std::string code;
         objectFile >> code;
-        memory[code_len - 1] = std::stoi(code);
+        memory[counter] = std::stoi(code);
+        counter++;
     }
     objectFile.close();
-    if (std::stoi(firstChar) != code_len)
-    {
-        pc = std::stoi(firstChar);
-    }
 }
 
 void Simulator::execute()

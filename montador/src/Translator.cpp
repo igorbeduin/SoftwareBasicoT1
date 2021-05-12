@@ -27,9 +27,17 @@ void Translator::read_file(bool showLines)
     {
         while (getline(inputFile, currLine))
         {
-            correctedLine = remove_comments(currLine);
-            correctedLine = remove_ending_space(correctedLine);
+            
+            correctedLine = convert_tabs_to_spaces(currLine);
+            correctedLine = remove_return_and_linefeed(correctedLine);
+            correctedLine = remove_comments(correctedLine);
+            correctedLine = remove_starting_spaces(correctedLine);
+            if (correctedLine.length() == 0)
+            {
+                continue;
+            }
             correctedLine = convert_to_uppercase(correctedLine);
+            correctedLine = remove_ending_spaces(correctedLine);
             correctedLine = remove_mult_spaces(correctedLine);
             orgLines.push_back(correctedLine);
             if (showLines)
@@ -39,7 +47,68 @@ void Translator::read_file(bool showLines)
             }
         }
         inputFile.close();
+        if (orgLines.size() == 0)
+        {
+            ControlVariables::set_quitRequest(true);
+            std::cout << "Blank file." << std::endl;
+        }
+    } else
+    {
+        std::cout << "ERROR: Unable to read file " << programName << std::endl;
+        ControlVariables::set_quitRequest(true);
     }
+}
+
+void Translator::first_pass() 
+{
+    mount_elements_array();
+    // scanner.print_elements();
+    classify_elements();
+}
+void Translator::second_pass() 
+{
+    verify_syntactic_errors();
+    mount_output();
+}
+
+std::string Translator::remove_starting_spaces(std::string line)
+{
+    while (line[0] == ' ')
+    {
+        line.erase(0, 1);
+    }
+    return line;
+}
+
+std::string Translator::convert_tabs_to_spaces(std::string line)
+{
+    for (int i = 0; i < (int)line.length() - 1; i++)
+    {
+        if (line[i] == '\t')
+        {
+            line.erase(i, 1);
+            line.insert(i, "    ");
+        }
+    }
+    return line;
+}
+
+std::string Translator::remove_return_and_linefeed(std::string line)
+{
+    std::string::iterator it = std::find(line.begin(), line.end(), '\r');
+    while(it != line.end())
+    {
+        line.erase(it, it + 1);
+        it = std::find(line.begin(), line.end(), '\r');
+    }
+    
+    it = std::find(line.begin(), line.end(), '\n');
+    while (it != line.end())
+    {
+        line.erase(it, it + 1);
+        it = std::find(line.begin(), line.end(), '\n');
+    }
+    return line;
 }
 
 std::string Translator::remove_mult_spaces(std::string line)
@@ -80,22 +149,9 @@ void Translator::read_file(std::string fileName, bool showLines)
     read_file(showLines=showLines);
 }
 
-
 int Translator::get_n_linesRead()
 {
     return orgLines.size();
-}
-
-void Translator::first_pass() 
-{
-    mount_elements_array();
-    // scanner.print_elements();
-    scanner.classify_elements();
-}
-void Translator::second_pass() 
-{
-    parser.verify_syntactic_errors();
-    parser.mount_output();
 }
 
 void Translator::write_output(std::string programName) 
@@ -128,11 +184,45 @@ void Translator::mount_elements_array()
     }
 }
 
-std::string Translator::remove_ending_space(std::string line)
+std::string Translator::remove_ending_spaces(std::string line)
 {
     while (line[line.size() - 1] == ' ')
     {
         line.erase(line.size() - 1, 1);
     }
     return line;
+}
+
+void Translator::classify_elements()
+{
+    scanner.classify_elements(isModule);
+}
+
+void Translator::verify_syntactic_errors()
+{
+    parser.verify_syntactic_errors();
+}
+
+void Translator::mount_output()
+{
+    parser.mount_output();
+}
+
+void Translator::set_is_module(bool _isModule)
+{
+    isModule = _isModule;
+}
+
+void Translator::reset_processing()
+{
+    orgLines.clear();
+    TokensTable::reset_class();
+    parser.reset_class();
+}
+
+FileToMount Translator::get_FileToMount()
+{
+    FileToMount file(programName);
+    file.set_tables(TokensTable::get_symbTable(),TokensTable::get_defTable(), parser.get_objectCode(), TokensTable::get_usageTable());
+    return file;
 }

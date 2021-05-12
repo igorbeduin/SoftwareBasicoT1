@@ -71,4 +71,12 @@ DirectTable::DirectTable()
     dummyMap["OP_CODE"] = 0;
     dummyMap["WORDS"] = 1;
     directTable["CONST"] = dummyMap;
+
+    dummyMap["OP_CODE"] = 0;
+    dummyMap["WORDS"] = 0;
+    directTable["EXTERN"] = dummyMap;
+
+    dummyMap["OP_CODE"] = 0;
+    dummyMap["WORDS"] = 0;
+    directTable["PUBLIC"] = dummyMap;
 }
