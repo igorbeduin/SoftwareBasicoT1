@@ -4,7 +4,7 @@ minus_one:
                     const   -1
 count:  const 5    ; numbers to
             	; print
-old:    space
+old :    space
 now:    space
 temp:   space
 section text
