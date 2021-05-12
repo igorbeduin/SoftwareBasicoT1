@@ -13,7 +13,7 @@
 class Linker
 {
     private:
-        std::string outputProgramName = "linked_output";
+        std::string outputProgramName = "program";
         int nModules = 0;
         std::ifstream inputFile;
         std::ofstream outputFile;
